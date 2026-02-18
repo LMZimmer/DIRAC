@@ -936,37 +936,14 @@ class Validation_Brats(Data.Dataset):
         fixed_img = load_4D(self.fixed_list[index])
         moved_img = load_4D(self.move_list[index])
 
-        # fixed_img = np.clip(fixed_img, a_min=0, a_max=1500)
-        # moved_img = np.clip(moved_img, a_min=0, a_max=1500)
-
         if self.norm:
             fixed_img = imgnorm(fixed_img)
             moved_img = imgnorm(moved_img)
 
-        fixed_file = open(self.fixed_label_list[index])
-        mov_file = open(self.move_label_list[index])
-
-        fixed_reader = csv.reader(fixed_file)
-        next(fixed_reader)
-        moved_reader = csv.reader(mov_file)
-        next(moved_reader)
-
-        fixed_key_list = []
-        moved_key_list = []
-
-        for mov_line, fixed_line in zip(moved_reader, fixed_reader):
-            moved_key_list.append([float(mov_line[1]), float(mov_line[2])+239., float(mov_line[3])])
-            fixed_key_list.append([float(fixed_line[1]), float(fixed_line[2])+239., float(fixed_line[3])])
-
-        fixed_img = torch.from_numpy(fixed_img)
-        moved_img = torch.from_numpy(moved_img)
-
-        fixed_file.close()
-        mov_file.close()
-
-        output = {'fixed': fixed_img.float(), 'move': moved_img.float(),
-                  'fixed_label': np.array(fixed_key_list), 'move_label': np.array(moved_key_list), 'index': index}
-        return output
+        return {
+            'fixed': fixed_img,
+            'move': moved_img
+        }
 
 
 class Validation_Brats_all(Data.Dataset):
