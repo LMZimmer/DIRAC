@@ -1,4 +1,2 @@
-Dataset/predict_gbm/*
-!Dataset/predict_gbm/Patient-001/
-!Dataset/predict_gbm/Patient-001/**
+Dataset
 Result
