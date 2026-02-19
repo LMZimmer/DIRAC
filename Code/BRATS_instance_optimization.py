@@ -95,17 +95,20 @@ def dirac_instance_optimization(
     Fup,
     disp_fb_init,
     disp_bf_init=None,
+    m_fb_fixed=None,
+    m_bf_fixed=None,
     lambdas_reg=(0.25, 0.3, 0.3, 0.35, 0.35),
     lambdas_inv=(1.0, 2.0, 4.0, 8.0, 10.0),
     lrs=(1e-2, 5e-3, 5e-3, 3e-3, 3e-3),
     iters=(150, 100, 100, 100, 50),
-    lambda_m=0.01,
 ):
     if disp_bf_init is None:
         disp_bf_init = -disp_fb_init
 
-    m_fb = torch.zeros_like(B)
-    m_bf = torch.zeros_like(B)
+    if m_fb_fixed is None:
+        m_fb_fixed = torch.zeros_like(B)
+    if m_bf_fixed is None:
+        m_bf_fixed = torch.zeros_like(B)
 
     disp_fb = disp_fb_init.clone()
     disp_bf = disp_bf_init.clone()
@@ -113,31 +116,28 @@ def dirac_instance_optimization(
     for lr, n_iter, lam_reg, lam_inv in zip(lrs, iters, lambdas_reg, lambdas_inv):
         disp_fb = disp_fb.detach().requires_grad_(True)
         disp_bf = disp_bf.detach().requires_grad_(True)
-        m_fb = m_fb.detach().requires_grad_(True)
-        m_bf = m_bf.detach().requires_grad_(True)
 
-        opt = torch.optim.Adam([disp_fb, disp_bf, m_fb, m_bf], lr=lr)
+        opt = torch.optim.Adam([disp_fb, disp_bf], lr=lr)
 
         for _ in range(n_iter):
             F_warp = warp(Fup, disp_fb)
             B_warp = warp(B, disp_bf)
 
             Ls = (
-                ncc_loss(B * (1 - m_fb), F_warp * (1 - m_fb))
-                + ncc_loss(Fup * (1 - m_bf), B_warp * (1 - m_bf))
+                ncc_loss(B * (1 - m_fb_fixed), F_warp * (1 - m_fb_fixed))
+                + ncc_loss(Fup * (1 - m_bf_fixed), B_warp * (1 - m_bf_fixed))
             )
 
             Lr = smoothness(disp_fb) + smoothness(disp_bf)
             Linv = inv_consistency(disp_fb, disp_bf)
-            Lm = m_fb.abs().mean() + m_bf.abs().mean()
 
-            loss = (1 - lam_reg) * Ls + lam_reg * Lr + lam_inv * Linv + lambda_m * Lm
+            loss = (1 - lam_reg) * Ls + lam_reg * Lr + lam_inv * Linv
 
             opt.zero_grad()
             loss.backward()
             opt.step()
 
-    return disp_fb.detach(), disp_bf.detach(), m_fb.detach(), m_bf.detach()
+    return disp_fb.detach(), disp_bf.detach(), m_fb_fixed.detach(), m_bf_fixed.detach()
 
 
 # ---------- DIRAC I/O conversion ----------
@@ -146,6 +146,13 @@ def load_image_for_grid_sample(path, device):
     img = nib.load(path).get_fdata().astype(np.float32)  # (H,W,D)
     img = torch.from_numpy(img).permute(2, 0, 1).unsqueeze(0).unsqueeze(0)  # (1,1,D,H,W)
     return img.to(device)
+
+
+def load_mask_for_grid_sample(path, device):
+    mask = nib.load(path).get_fdata().astype(np.float32)
+    mask = (mask > 0.5).astype(np.float32)
+    mask = torch.from_numpy(mask).permute(2, 0, 1).unsqueeze(0).unsqueeze(0)
+    return mask.to(device)
 
 
 def load_dirac_voxel_disp_for_grid_sample(path, device):
@@ -176,41 +183,67 @@ def run_patient(patient_dir, device, args):
     preop_path = os.path.join(patient_dir, "t1c_bet_normalized.nii.gz")
     followup_path = os.path.join(patient_dir, "t1c_bet_normalized_followup.nii.gz")
 
-    if args.forward_field_name is None:
-        fwd_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel.nii.gz")))
-        if len(fwd_candidates) != 1:
-            raise FileNotFoundError(
-                f"Expected exactly one followup->preop voxel field in {patient_dir}, found: {fwd_candidates}"
-            )
-        disp_fb_path = fwd_candidates[0]
-    else:
-        disp_fb_path = os.path.join(patient_dir, args.forward_field_name)
+    fwd_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel.nii.gz")))
+    if len(fwd_candidates) != 1:
+        raise FileNotFoundError(
+            f"Expected exactly one followup->preop voxel field in {patient_dir}, found: {fwd_candidates}"
+        )
+    disp_fb_path = fwd_candidates[0]
 
     if not os.path.exists(preop_path) or not os.path.exists(followup_path) or not os.path.exists(disp_fb_path):
         print(f"[skip] {patient_id}: missing required inputs")
         return
 
+    preop_mask_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_yx_seg.nii.gz")))
+    if len(preop_mask_candidates) != 1:
+        raise FileNotFoundError(
+            f"Expected exactly one preop-space mask (*_yx_seg.nii.gz) in {patient_dir}, found: {preop_mask_candidates}"
+        )
+    preop_mask_path = preop_mask_candidates[0]
+
+    followup_mask_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_xy_seg.nii.gz")))
+    if len(followup_mask_candidates) != 1:
+        raise FileNotFoundError(
+            f"Expected exactly one followup-space mask (*_xy_seg.nii.gz) in {patient_dir}, found: {followup_mask_candidates}"
+        )
+    followup_mask_path = followup_mask_candidates[0]
+
+    if not os.path.exists(preop_mask_path) or not os.path.exists(followup_mask_path):
+        print(f"[skip] {patient_id}: missing required masks")
+        return
+
     disp_bf_path = None
-    if args.backward_field_name is None:
-        bwd_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_preop_to_followup_disp_voxel.nii.gz")))
-        if len(bwd_candidates) == 1:
-            disp_bf_path = bwd_candidates[0]
-    else:
-        candidate = os.path.join(patient_dir, args.backward_field_name)
-        if os.path.exists(candidate):
-            disp_bf_path = candidate
+    bwd_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_preop_to_followup_disp_voxel.nii.gz")))
+    if len(bwd_candidates) == 1:
+        disp_bf_path = bwd_candidates[0]
 
     preop = load_image_for_grid_sample(preop_path, device)
     followup = load_image_for_grid_sample(followup_path, device)
+    preop_mask = load_mask_for_grid_sample(preop_mask_path, device)
+    followup_mask = load_mask_for_grid_sample(followup_mask_path, device)
     disp_fb = load_dirac_voxel_disp_for_grid_sample(disp_fb_path, device)
     disp_bf = load_dirac_voxel_disp_for_grid_sample(disp_bf_path, device) if disp_bf_path else None
+
+    lrs = tuple(float(x) for x in args.lrs.split(","))
+    iters = tuple(int(x) for x in args.iters.split(","))
+    lambdas_reg = tuple(float(x) for x in args.lambdas_reg.split(","))
+    lambdas_inv = tuple(float(x) for x in args.lambdas_inv.split(","))
+
+    schedule_len = len(lrs)
+    if not (len(iters) == len(lambdas_reg) == len(lambdas_inv) == schedule_len):
+        raise ValueError("lrs, iters, lambdas_reg and lambdas_inv must have the same number of entries")
 
     disp_fb_opt, disp_bf_opt, m_fb, m_bf = dirac_instance_optimization(
         B=preop,
         Fup=followup,
         disp_fb_init=disp_fb,
         disp_bf_init=disp_bf,
-        lambda_m=args.lambda_m,
+        m_fb_fixed=preop_mask,
+        m_bf_fixed=followup_mask,
+        lrs=lrs,
+        iters=iters,
+        lambdas_reg=lambdas_reg,
+        lambdas_inv=lambdas_inv,
     )
 
     ref = nib.load(preop_path)
@@ -252,19 +285,20 @@ def run_patient(patient_dir, device, args):
 def main():
     parser = ArgumentParser()
     parser.add_argument("--datapath", type=str, default="../Dataset/test", help="Path containing patient folders")
+    parser.add_argument("--lrs", type=str, default="1e-2,5e-3,5e-3,3e-3,3e-3", help="Comma-separated LR schedule")
+    parser.add_argument("--iters", type=str, default="150,100,100,100,50", help="Comma-separated iteration schedule")
     parser.add_argument(
-        "--forward_field_name",
+        "--lambdas_reg",
         type=str,
-        default=None,
-        help="Optional explicit filename for followup->preop voxel field inside each patient folder",
+        default="0.25,0.3,0.3,0.35,0.35",
+        help="Comma-separated regularization weights",
     )
     parser.add_argument(
-        "--backward_field_name",
+        "--lambdas_inv",
         type=str,
-        default=None,
-        help="Optional explicit filename for preop->followup voxel field inside each patient folder",
+        default="1.0,2.0,4.0,8.0,10.0",
+        help="Comma-separated inverse-consistency weights",
     )
-    parser.add_argument("--lambda_m", type=float, default=0.01, help="Mask sparsity penalty")
     parser.add_argument("--save_masks", action="store_true", help="Save optimized mask volumes")
     parser.add_argument("--cpu", action="store_true", help="Force CPU execution")
     args = parser.parse_args()
