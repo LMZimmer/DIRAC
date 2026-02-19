@@ -32,7 +32,7 @@ parser.add_argument("--num_cblock", type=int,
                     dest="num_cblock", default=5,
                     help="Number of conditional block")
 parser.add_argument("--output_seg", type=bool,
-                    dest="output_seg", default=False,
+                    dest="output_seg", default=True,
                     help="True: save segmentation map")
 parser.add_argument("--save_transform", type=bool,
                     dest="save_transform", default=True,
@@ -219,11 +219,11 @@ def test():
                           header=header, affine=affine)
 
                 # fixed (pre-op) -> moving (follow-up), saved for completeness
-                save_flow(f_x_y_norm, f"{patient_dir}/{patient_id}_preop_to_followup_disp_norm.nii.gz",
-                          header=header, affine=affine)
-                save_flow(f_x_y_voxel[0].transpose(1, 2, 3, 0),
-                          f"{patient_dir}/{patient_id}_preop_to_followup_disp_voxel.nii.gz",
-                          header=header, affine=affine)
+                #save_flow(f_x_y_norm, f"{patient_dir}/{patient_id}_preop_to_followup_disp_norm.nii.gz",
+                #          header=header, affine=affine)
+                #save_flow(f_x_y_voxel[0].transpose(1, 2, 3, 0),
+                #          f"{patient_dir}/{patient_id}_preop_to_followup_disp_voxel.nii.gz",
+                #          header=header, affine=affine)
 
             full_F_X_Y = torch.zeros(F_X_Y.shape)
             full_F_X_Y[0, 0] = F_X_Y[0, 2] * (h - 1) / 2
