@@ -104,19 +104,19 @@ def test():
                                                       None, norm=True), batch_size=1,
                                       shuffle=False, num_workers=2)
     
-    save_path = '../Result'
-    if not os.path.exists(save_path):
-        os.mkdir(save_path)
-
-    template = nib.load(val_fixed_list[0])
-    header, affine = template.header, template.affine
-
     use_cuda = True
     device = torch.device("cuda" if use_cuda else "cpu")
     # dice_total = []
     tre_total = []
     print("\nValiding...")
     for batch_idx, data in enumerate(valid_generator):
+        fixed_image_path = val_fixed_list[batch_idx]
+        patient_dir = os.path.dirname(fixed_image_path)
+        patient_id = os.path.basename(patient_dir)
+
+        template = nib.load(fixed_image_path)
+        header, affine = template.header, template.affine
+
         # X_ori, Y_ori, X_label, Y_label, tumor_mask = data['move'].to(device), data['fixed'].to(device), \
         #                          data['move_label'].numpy()[0], data['fixed_label'].numpy()[0], data['tumor_mask'].to(device)
         #Y_ori, X_ori, X_label, Y_label = data['move'].to(device), data['fixed'].to(device), \
@@ -175,21 +175,21 @@ def test():
                 occ_xy = occ_xy * fw_mask
                 occ_yx = occ_yx * bw_mask
 
-                save_img(occ_xy.cpu().numpy()[0, 0], f"{save_path}/{batch_idx + 1}_xy_seg.nii.gz", header=header,
+                save_img(occ_xy.cpu().numpy()[0, 0], f"{patient_dir}/{patient_id}_xy_seg.nii.gz", header=header,
                          affine=affine)
-                save_img(occ_yx.cpu().numpy()[0, 0], f"{save_path}/{batch_idx + 1}_yx_seg.nii.gz", header=header,
+                save_img(occ_yx.cpu().numpy()[0, 0], f"{patient_dir}/{patient_id}_yx_seg.nii.gz", header=header,
                          affine=affine)
 
-                save_img(norm_diff_fw.cpu().numpy()[0, 0], f"{save_path}/{batch_idx + 1}_diff_fw.nii.gz", header=header,
+                save_img(norm_diff_fw.cpu().numpy()[0, 0], f"{patient_dir}/{patient_id}_diff_fw.nii.gz", header=header,
                          affine=affine)
-                save_img(norm_diff_bw.cpu().numpy()[0, 0], f"{save_path}/{batch_idx + 1}_diff_bw.nii.gz", header=header,
+                save_img(norm_diff_bw.cpu().numpy()[0, 0], f"{patient_dir}/{patient_id}_diff_bw.nii.gz", header=header,
                          affine=affine)
 
             X_Y = transform(X_ori, F_X_Y.permute(0, 2, 3, 4, 1), grid_unit)
             Y_X = transform(Y_ori, F_Y_X.permute(0, 2, 3, 4, 1), grid_unit)
 
-            save_img(X_Y.cpu().numpy()[0, 0], f"{save_path}/{batch_idx + 1}_X_Y.nii.gz", header=header, affine=affine)
-            save_img(Y_X.cpu().numpy()[0, 0], f"{save_path}/{batch_idx + 1}_Y_X.nii.gz", header=header, affine=affine)
+            save_img(X_Y.cpu().numpy()[0, 0], f"{patient_dir}/{patient_id}_X_Y.nii.gz", header=header, affine=affine)
+            save_img(Y_X.cpu().numpy()[0, 0], f"{patient_dir}/{patient_id}_Y_X.nii.gz", header=header, affine=affine)
 
             full_F_X_Y = torch.zeros(F_X_Y.shape)
             full_F_X_Y[0, 0] = F_X_Y[0, 2] * (h - 1) / 2
