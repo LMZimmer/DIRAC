@@ -1,5 +1,13 @@
+import glob
+import os
+from argparse import ArgumentParser
+
+import nibabel as nib
+import numpy as np
 import torch
 import torch.nn.functional as F
+
+from Functions import save_flow
 
 
 # ---------- Warping utilities ----------
@@ -83,26 +91,19 @@ def inv_consistency(d_fwd, d_bwd):
 # ---------- Paper-accurate instance optimization ----------
 
 def dirac_instance_optimization(
-    B, F,
+    B,
+    Fup,
     disp_fb_init,
     disp_bf_init=None,
-    lambdas_reg=[0.25, 0.3, 0.3, 0.35, 0.35],
-    lambdas_inv=[1.0, 2.0, 4.0, 8.0, 10.0],
-    lrs=[1e-2, 5e-3, 5e-3, 3e-3, 3e-3],
-    iters=[150, 100, 100, 100, 50],
+    lambdas_reg=(0.25, 0.3, 0.3, 0.35, 0.35),
+    lambdas_inv=(1.0, 2.0, 4.0, 8.0, 10.0),
+    lrs=(1e-2, 5e-3, 5e-3, 3e-3, 3e-3),
+    iters=(150, 100, 100, 100, 50),
     lambda_m=0.01,
 ):
-    """
-    B: baseline (fixed) image (1,1,D,H,W)
-    F: followup (moving) image (1,1,D,H,W)
-    disp_fb_init: F->B field (1,3,D,H,W)
-    disp_bf_init: B->F field (optional)
-    """
-
     if disp_bf_init is None:
         disp_bf_init = -disp_fb_init
 
-    # Masks initialized to zero (no exclusion)
     m_fb = torch.zeros_like(B)
     m_bf = torch.zeros_like(B)
 
@@ -110,7 +111,6 @@ def dirac_instance_optimization(
     disp_bf = disp_bf_init.clone()
 
     for lr, n_iter, lam_reg, lam_inv in zip(lrs, iters, lambdas_reg, lambdas_inv):
-
         disp_fb = disp_fb.detach().requires_grad_(True)
         disp_bf = disp_bf.detach().requires_grad_(True)
         m_fb = m_fb.detach().requires_grad_(True)
@@ -119,23 +119,16 @@ def dirac_instance_optimization(
         opt = torch.optim.Adam([disp_fb, disp_bf, m_fb, m_bf], lr=lr)
 
         for _ in range(n_iter):
-
-            F_warp = warp(F, disp_fb)
+            F_warp = warp(Fup, disp_fb)
             B_warp = warp(B, disp_bf)
 
-            # ---- Masked similarity Ls ----
             Ls = (
-                ncc_loss(B * (1 - m_fb), F_warp * (1 - m_fb)) +
-                ncc_loss(F * (1 - m_bf), B_warp * (1 - m_bf))
+                ncc_loss(B * (1 - m_fb), F_warp * (1 - m_fb))
+                + ncc_loss(Fup * (1 - m_bf), B_warp * (1 - m_bf))
             )
 
-            # ---- Regularization ----
             Lr = smoothness(disp_fb) + smoothness(disp_bf)
-
-            # ---- Inverse consistency ----
             Linv = inv_consistency(disp_fb, disp_bf)
-
-            # ---- Mask penalty ----
             Lm = m_fb.abs().mean() + m_bf.abs().mean()
 
             loss = (1 - lam_reg) * Ls + lam_reg * Lr + lam_inv * Linv + lambda_m * Lm
@@ -146,3 +139,145 @@ def dirac_instance_optimization(
 
     return disp_fb.detach(), disp_bf.detach(), m_fb.detach(), m_bf.detach()
 
+
+# ---------- DIRAC I/O conversion ----------
+
+def load_image_for_grid_sample(path, device):
+    img = nib.load(path).get_fdata().astype(np.float32)  # (H,W,D)
+    img = torch.from_numpy(img).permute(2, 0, 1).unsqueeze(0).unsqueeze(0)  # (1,1,D,H,W)
+    return img.to(device)
+
+
+def load_dirac_voxel_disp_for_grid_sample(path, device):
+    disp = nib.load(path).get_fdata().astype(np.float32)  # (H,W,D,3)
+
+    # DIRAC voxel output components follow image axes: [axis0(H), axis1(W), axis2(D)].
+    # grid_sample expects channels [dx(W), dy(H), dz(D)] for tensor shape (1,3,D,H,W).
+    comp_axis0 = torch.from_numpy(disp[..., 0]).permute(2, 0, 1)  # (D,H,W)
+    comp_axis1 = torch.from_numpy(disp[..., 1]).permute(2, 0, 1)  # (D,H,W)
+    comp_axis2 = torch.from_numpy(disp[..., 2]).permute(2, 0, 1)  # (D,H,W)
+
+    disp_grid = torch.stack((comp_axis1, comp_axis0, comp_axis2), dim=0).unsqueeze(0)
+    return disp_grid.to(device)
+
+
+def grid_sample_disp_to_dirac_voxel(disp):
+    # disp: (1,3,D,H,W) with [dx(W), dy(H), dz(D)]
+    dx = disp[0, 0].permute(1, 2, 0).cpu().numpy()  # (H,W,D)
+    dy = disp[0, 1].permute(1, 2, 0).cpu().numpy()  # (H,W,D)
+    dz = disp[0, 2].permute(1, 2, 0).cpu().numpy()  # (H,W,D)
+
+    out = np.stack((dy, dx, dz), axis=-1).astype(np.float32)  # DIRAC voxel component order
+    return out
+
+
+def run_patient(patient_dir, device, args):
+    patient_id = os.path.basename(patient_dir.rstrip("/"))
+    preop_path = os.path.join(patient_dir, "t1c_bet_normalized.nii.gz")
+    followup_path = os.path.join(patient_dir, "t1c_bet_normalized_followup.nii.gz")
+
+    if args.forward_field_name is None:
+        fwd_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel.nii.gz")))
+        if len(fwd_candidates) != 1:
+            raise FileNotFoundError(
+                f"Expected exactly one followup->preop voxel field in {patient_dir}, found: {fwd_candidates}"
+            )
+        disp_fb_path = fwd_candidates[0]
+    else:
+        disp_fb_path = os.path.join(patient_dir, args.forward_field_name)
+
+    if not os.path.exists(preop_path) or not os.path.exists(followup_path) or not os.path.exists(disp_fb_path):
+        print(f"[skip] {patient_id}: missing required inputs")
+        return
+
+    disp_bf_path = None
+    if args.backward_field_name is None:
+        bwd_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_preop_to_followup_disp_voxel.nii.gz")))
+        if len(bwd_candidates) == 1:
+            disp_bf_path = bwd_candidates[0]
+    else:
+        candidate = os.path.join(patient_dir, args.backward_field_name)
+        if os.path.exists(candidate):
+            disp_bf_path = candidate
+
+    preop = load_image_for_grid_sample(preop_path, device)
+    followup = load_image_for_grid_sample(followup_path, device)
+    disp_fb = load_dirac_voxel_disp_for_grid_sample(disp_fb_path, device)
+    disp_bf = load_dirac_voxel_disp_for_grid_sample(disp_bf_path, device) if disp_bf_path else None
+
+    disp_fb_opt, disp_bf_opt, m_fb, m_bf = dirac_instance_optimization(
+        B=preop,
+        Fup=followup,
+        disp_fb_init=disp_fb,
+        disp_bf_init=disp_bf,
+        lambda_m=args.lambda_m,
+    )
+
+    ref = nib.load(preop_path)
+    header, affine = ref.header, ref.affine
+
+    fb_voxel = grid_sample_disp_to_dirac_voxel(disp_fb_opt)
+    bf_voxel = grid_sample_disp_to_dirac_voxel(disp_bf_opt)
+
+    save_flow(
+        fb_voxel,
+        os.path.join(patient_dir, f"{patient_id}_followup_to_preop_disp_voxel_optimized.nii.gz"),
+        header=header,
+        affine=affine,
+    )
+    save_flow(
+        bf_voxel,
+        os.path.join(patient_dir, f"{patient_id}_preop_to_followup_disp_voxel_optimized.nii.gz"),
+        header=header,
+        affine=affine,
+    )
+
+    if args.save_masks:
+        save_flow(
+            m_fb[0, 0].permute(1, 2, 0).cpu().numpy().astype(np.float32),
+            os.path.join(patient_dir, f"{patient_id}_followup_to_preop_mask_optimized.nii.gz"),
+            header=header,
+            affine=affine,
+        )
+        save_flow(
+            m_bf[0, 0].permute(1, 2, 0).cpu().numpy().astype(np.float32),
+            os.path.join(patient_dir, f"{patient_id}_preop_to_followup_mask_optimized.nii.gz"),
+            header=header,
+            affine=affine,
+        )
+
+    print(f"[ok] {patient_id}: optimized fields saved")
+
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("--datapath", type=str, default="../Dataset/test", help="Path containing patient folders")
+    parser.add_argument(
+        "--forward_field_name",
+        type=str,
+        default=None,
+        help="Optional explicit filename for followup->preop voxel field inside each patient folder",
+    )
+    parser.add_argument(
+        "--backward_field_name",
+        type=str,
+        default=None,
+        help="Optional explicit filename for preop->followup voxel field inside each patient folder",
+    )
+    parser.add_argument("--lambda_m", type=float, default=0.01, help="Mask sparsity penalty")
+    parser.add_argument("--save_masks", action="store_true", help="Save optimized mask volumes")
+    parser.add_argument("--cpu", action="store_true", help="Force CPU execution")
+    args = parser.parse_args()
+
+    device = torch.device("cpu" if args.cpu or not torch.cuda.is_available() else "cuda")
+    print(f"Using device: {device}")
+
+    patient_dirs = sorted([d for d in glob.glob(os.path.join(args.datapath, "*")) if os.path.isdir(d)])
+    print(f"Found {len(patient_dirs)} patient folders in {args.datapath}")
+
+    for patient_dir in patient_dirs:
+        run_patient(patient_dir, device, args)
+
+
+if __name__ == "__main__":
+    main()
