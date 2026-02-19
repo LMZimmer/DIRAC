@@ -5,8 +5,4 @@ Moving: ['/mnt/Drive2/lucas/models/DIRAC/Dataset/predict_gbm/Patient-001/t1c_bet
 Datapath: /mnt/Drive2/lucas/models/DIRAC/Dataset/predict_gbm/
 
 Validing...
-BRATS_infer_DIRAC.py:221: RuntimeWarning: Mean of empty slice.
-  print("TRE mean: ", tre_total.mean())
-/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/numpy/core/_methods.py:192: RuntimeWarning: invalid value encountered in scalar divide
-  ret = ret.dtype.type(ret / rcount)
-TRE mean:  nan
+Done.
