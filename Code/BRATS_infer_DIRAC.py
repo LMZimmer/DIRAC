@@ -9,7 +9,7 @@ import torch.nn.functional as F
 import torch.utils.data as Data
 from scipy.ndimage import map_coordinates
 
-from Functions import Validation_Brats, generate_grid_unit, save_img
+from Functions import Validation_Brats, generate_grid_unit, save_flow, save_img
 from bratsreg_model_stage import Miccai2021_LDR_laplacian_unit_disp_add_AdaIn_lvl1, \
     Miccai2021_LDR_laplacian_unit_disp_add_AdaIn_lvl2, Miccai2021_LDR_laplacian_unit_disp_add_AdaIn_lvl3, \
     SpatialTransform_unit
@@ -34,6 +34,9 @@ parser.add_argument("--num_cblock", type=int,
 parser.add_argument("--output_seg", type=bool,
                     dest="output_seg", default=False,
                     help="True: save segmentation map")
+parser.add_argument("--save_transform", type=bool,
+                    dest="save_transform", default=True,
+                    help="True: save deformation fields for reuse/optimization")
 
 
 def compute_tre(x, y, spacing=(1, 1, 1)):
@@ -191,6 +194,48 @@ def test():
             save_img(X_Y.cpu().numpy()[0, 0], f"{patient_dir}/{patient_id}_X_Y.nii.gz", header=header, affine=affine)
             save_img(Y_X.cpu().numpy()[0, 0], f"{patient_dir}/{patient_id}_Y_X.nii.gz", header=header, affine=affine)
 
+            if save_transform:
+                # DIRAC predicts flow in normalized grid coordinates with channel order (z, y, x).
+                # Save both normalized and voxel-space displacement fields for downstream refinement.
+                f_x_y_norm = F_X_Y.cpu().numpy()[0].transpose(1, 2, 3, 0)
+                f_y_x_norm = F_Y_X.cpu().numpy()[0].transpose(1, 2, 3, 0)
+
+                f_x_y_voxel = np.zeros(F_X_Y.shape, dtype=np.float32)
+                f_y_x_voxel = np.zeros(F_Y_X.shape, dtype=np.float32)
+
+                f_x_y_voxel[0, 0] = F_X_Y[0, 2].cpu().numpy() * (h - 1) / 2
+                f_x_y_voxel[0, 1] = F_X_Y[0, 1].cpu().numpy() * (w - 1) / 2
+                f_x_y_voxel[0, 2] = F_X_Y[0, 0].cpu().numpy() * (d - 1) / 2
+
+                f_y_x_voxel[0, 0] = F_Y_X[0, 2].cpu().numpy() * (h - 1) / 2
+                f_y_x_voxel[0, 1] = F_Y_X[0, 1].cpu().numpy() * (w - 1) / 2
+                f_y_x_voxel[0, 2] = F_Y_X[0, 0].cpu().numpy() * (d - 1) / 2
+
+                # moving (follow-up) -> fixed (pre-op), useful for warping follow-up tumor labels into pre-op space
+                save_flow(f_y_x_norm, f"{patient_dir}/{patient_id}_followup_to_preop_disp_norm.nii.gz",
+                          header=header, affine=affine)
+                save_flow(f_y_x_voxel[0].transpose(1, 2, 3, 0),
+                          f"{patient_dir}/{patient_id}_followup_to_preop_disp_voxel.nii.gz",
+                          header=header, affine=affine)
+
+                # fixed (pre-op) -> moving (follow-up), saved for completeness
+                save_flow(f_x_y_norm, f"{patient_dir}/{patient_id}_preop_to_followup_disp_norm.nii.gz",
+                          header=header, affine=affine)
+                save_flow(f_x_y_voxel[0].transpose(1, 2, 3, 0),
+                          f"{patient_dir}/{patient_id}_preop_to_followup_disp_voxel.nii.gz",
+                          header=header, affine=affine)
+
+                np.savez_compressed(
+                    f"{patient_dir}/{patient_id}_deformation_metadata.npz",
+                    followup_to_preop_disp_norm=f_y_x_norm,
+                    preop_to_followup_disp_norm=f_x_y_norm,
+                    channel_order=np.array(["z", "y", "x"]),
+                    voxel_axis_order=np.array(["x", "y", "z"]),
+                    image_shape=np.array([h, w, d]),
+                    fixed_image=np.array([fixed_image_path]),
+                    moving_image=np.array([val_moving_list[batch_idx]])
+                )
+
             full_F_X_Y = torch.zeros(F_X_Y.shape)
             full_F_X_Y[0, 0] = F_X_Y[0, 2] * (h - 1) / 2
             full_F_X_Y[0, 1] = F_X_Y[0, 1] * (w - 1) / 2
@@ -232,6 +277,7 @@ if __name__ == '__main__':
     num_cblock = opt.num_cblock
     model_name = opt.modelname
     output_seg = opt.output_seg
+    save_transform = opt.save_transform
 
     img_h, img_w, img_d = 160, 160, 80
     imgshape = (img_h, img_w, img_d)
