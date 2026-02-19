@@ -5,35 +5,8 @@ Moving: ['/mnt/Drive2/lucas/models/DIRAC/Dataset/predict_gbm/Patient-001/t1c_bet
 Datapath: /mnt/Drive2/lucas/models/DIRAC/Dataset/predict_gbm/
 
 Validing...
-BRATS_infer_DIRAC.py:10: DeprecationWarning: Please use `map_coordinates` from the `scipy.ndimage` namespace, the `scipy.ndimage.interpolation` namespace is deprecated.
-  from scipy.ndimage.interpolation import map_coordinates
-/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/functional.py:3631: UserWarning: Default upsampling behavior when mode=trilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
-  warnings.warn(
-Traceback (most recent call last):
-  File "BRATS_infer_DIRAC.py", line 240, in <module>
-    test()
-  File "BRATS_infer_DIRAC.py", line 134, in test
-    F_X_Y, X_Y, Y_4x, F_xy, F_xy_lvl1, F_xy_lvl2, _ = model(X, Y, reg_code)
-  File "/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/mnt/Drive2/lucas/models/DIRAC/Code/bratsreg_model_stage.py", line 391, in forward
-    lvl2_disp, _, _, lvl2_v, lvl1_v, lvl2_embedding = self.model_lvl2(x, y, reg_code)
-  File "/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/mnt/Drive2/lucas/models/DIRAC/Code/bratsreg_model_stage.py", line 253, in forward
-    lvl1_disp, _, _, lvl1_v, lvl1_embedding = self.model_lvl1(x, y, reg_code)
-  File "/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/mnt/Drive2/lucas/models/DIRAC/Code/bratsreg_model_stage.py", line 122, in forward
-    fea_e0 = self.input_encoder_lvl1(cat_input_lvl1)
-  File "/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/modules/container.py", line 141, in forward
-    input = module(input)
-  File "/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 590, in forward
-    return self._conv_forward(input, self.weight, self.bias)
-  File "/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 585, in _conv_forward
-    return F.conv3d(
-RuntimeError: Input type (torch.cuda.DoubleTensor) and weight type (torch.cuda.FloatTensor) should be the same
+BRATS_infer_DIRAC.py:221: RuntimeWarning: Mean of empty slice.
+  print("TRE mean: ", tre_total.mean())
+/home/home/lucas/bin/miniconda3/envs/dirac/lib/python3.8/site-packages/numpy/core/_methods.py:192: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+TRE mean:  nan

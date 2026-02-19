@@ -940,6 +940,9 @@ class Validation_Brats(Data.Dataset):
             fixed_img = imgnorm(fixed_img)
             moved_img = imgnorm(moved_img)
 
+        fixed_img = torch.from_numpy(fixed_img).float()
+        moved_img = torch.from_numpy(moved_img).float()
+
         return {
             'fixed': fixed_img,
             'move': moved_img

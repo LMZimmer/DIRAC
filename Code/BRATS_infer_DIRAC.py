@@ -7,7 +7,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torch.utils.data as Data
-from scipy.ndimage.interpolation import map_coordinates
+from scipy.ndimage import map_coordinates
 
 from Functions import Validation_Brats, generate_grid_unit, save_img
 from bratsreg_model_stage import Miccai2021_LDR_laplacian_unit_disp_add_AdaIn_lvl1, \
@@ -126,8 +126,10 @@ def test():
         ori_img_shape = X_ori.shape[2:]
         h, w, d = ori_img_shape
 
-        X = F.interpolate(X_ori, size=imgshape, mode='trilinear')
-        Y = F.interpolate(Y_ori, size=imgshape, mode='trilinear')
+        #X = F.interpolate(X_ori, size=imgshape, mode='trilinear') #TODO
+        #Y = F.interpolate(Y_ori, size=imgshape, mode='trilinear') #TODO
+        X = F.interpolate(X_ori, size=imgshape, mode='trilinear', align_corners=True)
+        Y = F.interpolate(Y_ori, size=imgshape, mode='trilinear', align_corners=True)
 
         with torch.no_grad():
             reg_code = torch.tensor([0.3], dtype=X.dtype, device=X.device).unsqueeze(dim=0)
@@ -215,8 +217,9 @@ def test():
             print(batch_idx, ": TRE: ", tre_score)
             """
 
-    tre_total = np.array(tre_total)
-    print("TRE mean: ", tre_total.mean())
+    print("Done.")
+    #tre_total = np.array(tre_total)
+    #print("TRE mean: ", tre_total.mean())
     # with open(log_dir, "a") as log:
     #     log.write(str(step)+":"+str(tre_total.mean()) + "\n")
 
