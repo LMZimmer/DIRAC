@@ -5,4 +5,3 @@ Moving: ['/mnt/Drive2/lucas/models/DIRAC/Dataset/predict_gbm/Patient-001/t1c_bet
 Datapath: /mnt/Drive2/lucas/models/DIRAC/Dataset/predict_gbm/
 
 Validing...
-Done.
