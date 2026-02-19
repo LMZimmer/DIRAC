@@ -301,6 +301,11 @@ def main():
     )
     parser.add_argument("--save_masks", action="store_true", help="Save optimized mask volumes")
     parser.add_argument("--cpu", action="store_true", help="Force CPU execution")
+    parser.add_argument(
+        "--test_run",
+        action="store_true",
+        help="Run only the first patient folder found in datapath",
+    )
     args = parser.parse_args()
 
     device = torch.device("cpu" if args.cpu or not torch.cuda.is_available() else "cuda")
@@ -308,6 +313,10 @@ def main():
 
     patient_dirs = sorted([d for d in glob.glob(os.path.join(args.datapath, "*")) if os.path.isdir(d)])
     print(f"Found {len(patient_dirs)} patient folders in {args.datapath}")
+
+    if args.test_run and patient_dirs:
+        patient_dirs = patient_dirs[:1]
+        print(f"Test run enabled: processing only {os.path.basename(patient_dirs[0])}")
 
     for patient_dir in patient_dirs:
         run_patient(patient_dir, device, args)
