@@ -110,25 +110,101 @@ def dirac_instance_optimization(
     if m_bf_fixed is None:
         m_bf_fixed = torch.zeros_like(B)
 
-    disp_fb = disp_fb_init.clone()
-    disp_bf = disp_bf_init.clone()
+    # Full-resolution sizes (tensor order: D,H,W)
+    _, _, D_full, H_full, W_full = B.shape
 
-    for lr, n_iter, lam_reg, lam_inv in zip(lrs, iters, lambdas_reg, lambdas_inv):
-        disp_fb = disp_fb.detach().requires_grad_(True)
-        disp_bf = disp_bf.detach().requires_grad_(True)
+    Dmin, Hmin, Wmin = 80, 80, 80
 
-        opt = torch.optim.Adam([disp_fb, disp_bf], lr=lr)
+    # Grid size bounds
+    g_min, g_max = 32, 64
+
+    n_levels = len(lrs)
+
+    # ---- Image pyramid: Nmin → full resolution (aspect-ratio preserving) ----
+
+    scale_min = min(
+        Dmin / D_full,
+        Hmin / H_full,
+        Wmin / W_full,
+        1.0,  # never upscale
+    )
+
+    scales = [
+        scale_min + (1.0 - scale_min) * i / max(n_levels - 1, 1)
+        for i in range(n_levels)
+    ]
+
+    pyr_sizes = [
+        (
+            max(1, int(round(D_full * s))),
+            max(1, int(round(H_full * s))),
+            max(1, int(round(W_full * s))),
+        )
+        for s in scales
+    ]
+
+    # ---- Grid sizes: 32³ → 64³ ----
+    grid_sizes = [
+        int(round(g_min + (g_max - g_min) * i / max(n_levels - 1, 1)))
+        for i in range(n_levels)
+    ]
+
+    # Initialize dense fields from DIRAC init
+    disp_fb_full = disp_fb_init.clone().detach()
+    disp_bf_full = disp_bf_init.clone().detach()
+
+    for lvl, (lr, n_iter, lam_reg, lam_inv) in enumerate(
+        zip(lrs, iters, lambdas_reg, lambdas_inv)
+    ):
+        D, H, W = pyr_sizes[lvl]
+        g = grid_sizes[lvl]
+
+        print(f"[lvl {lvl}] image={D}x{H}x{W}, grid={g}³")
+
+        # ---- Downsample images + masks to current pyramid level ----
+        B_l   = F.interpolate(B,   size=(D, H, W), mode="trilinear", align_corners=True)
+        F_l   = F.interpolate(Fup, size=(D, H, W), mode="trilinear", align_corners=True)
+        mfb_l = F.interpolate(m_fb_fixed, size=(D, H, W), mode="nearest")
+        mbf_l = F.interpolate(m_bf_fixed, size=(D, H, W), mode="nearest")
+
+        # Bring current dense init to this level
+        disp_fb_l = F.interpolate(disp_fb_full, size=(D, H, W),
+                                  mode="trilinear", align_corners=True)
+        disp_bf_l = F.interpolate(disp_bf_full, size=(D, H, W),
+                                  mode="trilinear", align_corners=True)
+
+        # ---- Control-point grid parameterization (learnable variables) ----
+        cp_fb = F.interpolate(disp_fb_l, size=(g, g, g),
+                              mode="trilinear", align_corners=True
+                              ).detach().requires_grad_(True)
+
+        cp_bf = F.interpolate(disp_bf_l, size=(g, g, g),
+                              mode="trilinear", align_corners=True
+                              ).detach().requires_grad_(True)
+
+        opt = torch.optim.Adam([cp_fb, cp_bf], lr=lr)
 
         for _ in range(n_iter):
-            F_warp = warp(Fup, disp_fb)
-            B_warp = warp(B, disp_bf)
+            # Upsample CP grid → dense field at current level
+            disp_fb = F.interpolate(cp_fb, size=(D, H, W),
+                                    mode="trilinear", align_corners=True)
+            disp_bf = F.interpolate(cp_bf, size=(D, H, W),
+                                    mode="trilinear", align_corners=True)
 
+            # Warp images
+            F_warp = warp(F_l, disp_fb)
+            B_warp = warp(B_l, disp_bf)
+
+            # Similarity (with masks)
             Ls = (
-                ncc_loss(B * (1 - m_fb_fixed), F_warp * (1 - m_fb_fixed))
-                + ncc_loss(Fup * (1 - m_bf_fixed), B_warp * (1 - m_bf_fixed))
+                ncc_loss(B_l * (1 - mfb_l), F_warp * (1 - mfb_l))
+                + ncc_loss(F_l * (1 - mbf_l), B_warp * (1 - mbf_l))
             )
 
+            # Regularization
             Lr = smoothness(disp_fb) + smoothness(disp_bf)
+
+            # Inverse consistency
             Linv = inv_consistency(disp_fb, disp_bf)
 
             loss = (1 - lam_reg) * Ls + lam_reg * Lr + lam_inv * Linv
@@ -137,7 +213,23 @@ def dirac_instance_optimization(
             loss.backward()
             opt.step()
 
-    return disp_fb.detach(), disp_bf.detach(), m_fb_fixed.detach(), m_bf_fixed.detach()
+        # ---- Promote result to full resolution for next level ----
+        disp_fb_full = F.interpolate(
+            F.interpolate(cp_fb.detach(), size=(D, H, W),
+                          mode="trilinear", align_corners=True),
+            size=(D_full, H_full, W_full),
+            mode="trilinear", align_corners=True,
+        )
+
+        disp_bf_full = F.interpolate(
+            F.interpolate(cp_bf.detach(), size=(D, H, W),
+                          mode="trilinear", align_corners=True),
+            size=(D_full, H_full, W_full),
+            mode="trilinear", align_corners=True,
+        )
+
+    return disp_fb_full.detach(), disp_bf_full.detach(), \
+           m_fb_fixed.detach(), m_bf_fixed.detach()
 
 
 # ---------- DIRAC I/O conversion ----------
@@ -320,6 +412,8 @@ def main():
 
     for patient_dir in patient_dirs:
         run_patient(patient_dir, device, args)
+
+    print("Done.")
 
 
 if __name__ == "__main__":
