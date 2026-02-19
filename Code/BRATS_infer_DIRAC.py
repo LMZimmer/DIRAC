@@ -225,17 +225,6 @@ def test():
                           f"{patient_dir}/{patient_id}_preop_to_followup_disp_voxel.nii.gz",
                           header=header, affine=affine)
 
-                np.savez_compressed(
-                    f"{patient_dir}/{patient_id}_deformation_metadata.npz",
-                    followup_to_preop_disp_norm=f_y_x_norm,
-                    preop_to_followup_disp_norm=f_x_y_norm,
-                    channel_order=np.array(["z", "y", "x"]),
-                    voxel_axis_order=np.array(["x", "y", "z"]),
-                    image_shape=np.array([h, w, d]),
-                    fixed_image=np.array([fixed_image_path]),
-                    moving_image=np.array([val_moving_list[batch_idx]])
-                )
-
             full_F_X_Y = torch.zeros(F_X_Y.shape)
             full_F_X_Y[0, 0] = F_X_Y[0, 2] * (h - 1) / 2
             full_F_X_Y[0, 1] = F_X_Y[0, 1] * (w - 1) / 2
