@@ -58,8 +58,10 @@ def resize_disp_voxel(disp, size):
     return resized
 
 
-def pad_tensor_to_min_size(x, min_size):
-    """Pad a (N,C,D,H,W) tensor to min_size=(D,H,W) using symmetric zero-padding."""
+def pad_tensor_to_min_size(x, min_size, mode="constant", value=0.0):
+    if x.dim() != 5:
+        raise ValueError(f"Expected 5D tensor (N,C,D,H,W), got shape {tuple(x.shape)}")
+
     _, _, D, H, W = x.shape
     min_D, min_H, min_W = min_size
 
@@ -71,9 +73,20 @@ def pad_tensor_to_min_size(x, min_size):
     pad_h0, pad_h1 = pad_h // 2, pad_h - (pad_h // 2)
     pad_w0, pad_w1 = pad_w // 2, pad_w - (pad_w // 2)
 
-    # F.pad expects (W0,W1,H0,H1,D0,D1) for 5D tensors.
-    x_pad = F.pad(x, (pad_w0, pad_w1, pad_h0, pad_h1, pad_d0, pad_d1), mode="constant", value=0)
-    crop_slices = (slice(pad_d0, pad_d0 + D), slice(pad_h0, pad_h0 + H), slice(pad_w0, pad_w0 + W))
+    pad = (pad_w0, pad_w1, pad_h0, pad_h1, pad_d0, pad_d1)
+
+    if mode == "constant":
+        x_pad = F.pad(x, pad, mode="constant", value=float(value))
+    elif mode in ("replicate", "reflect"):
+        x_pad = F.pad(x, pad, mode=mode)
+    else:
+        raise ValueError(f"Unsupported pad mode: {mode}")
+
+    crop_slices = (
+        slice(pad_d0, pad_d0 + D),
+        slice(pad_h0, pad_h0 + H),
+        slice(pad_w0, pad_w0 + W),
+    )
     return x_pad, crop_slices
 
 
@@ -233,22 +246,34 @@ def dirac_instance_optimization(
 
         print(f"[lvl {lvl}] image={D_base}x{H_base}x{W_base} -> padded={D}x{H}x{W}, grid={g}³")
 
-        # ---- Isotropic downsample then pad each axis to a minimum size ----
-        B_l_base = F.interpolate(B, size=(D_base, H_base, W_base), mode="trilinear", align_corners=True)
+        # ---- Isotropic downsample (aspect-ratio preserving) ----
+        B_l_base = F.interpolate(B,   size=(D_base, H_base, W_base), mode="trilinear", align_corners=True)
         F_l_base = F.interpolate(Fup, size=(D_base, H_base, W_base), mode="trilinear", align_corners=True)
+
+        # Masks are binary; keep nearest
         mfb_l_base = F.interpolate(m_fb_fixed, size=(D_base, H_base, W_base), mode="nearest")
         mbf_l_base = F.interpolate(m_bf_fixed, size=(D_base, H_base, W_base), mode="nearest")
 
-        B_l, _ = pad_tensor_to_min_size(B_l_base, min_size=(Dmin, Hmin, Wmin))
-        F_l, _ = pad_tensor_to_min_size(F_l_base, min_size=(Dmin, Hmin, Wmin))
-        mfb_l, _ = pad_tensor_to_min_size(mfb_l_base, min_size=(Dmin, Hmin, Wmin))
-        mbf_l, _ = pad_tensor_to_min_size(mbf_l_base, min_size=(Dmin, Hmin, Wmin))
+        # ---- Pad to enforce minimum size per axis without distorting aspect ratio ----
+        # Images: replicate borders to avoid artificial zero edges
+        B_l, crop_slices = pad_tensor_to_min_size(B_l_base, min_size=(Dmin, Hmin, Wmin), mode="replicate")
+        F_l, _           = pad_tensor_to_min_size(F_l_base, min_size=(Dmin, Hmin, Wmin), mode="replicate")
 
-        # Bring current dense init to this level
+        # Masks: pad with 1 ("absent correspondence") so (1 - m) = 0 in padded region => NCC ignores padding
+        mfb_l, _ = pad_tensor_to_min_size(mfb_l_base, min_size=(Dmin, Hmin, Wmin), mode="constant", value=1.0)
+        mbf_l, _ = pad_tensor_to_min_size(mbf_l_base, min_size=(Dmin, Hmin, Wmin), mode="constant", value=1.0)
+
+        # Bring current dense init to isotropic level size then pad
         disp_fb_l_base = resize_disp_voxel(disp_fb_full, size=(D_base, H_base, W_base))
         disp_bf_l_base = resize_disp_voxel(disp_bf_full, size=(D_base, H_base, W_base))
-        disp_fb_l, crop_slices = pad_tensor_to_min_size(disp_fb_l_base, min_size=(Dmin, Hmin, Wmin))
-        disp_bf_l, _ = pad_tensor_to_min_size(disp_bf_l_base, min_size=(Dmin, Hmin, Wmin))
+
+        # Displacements: replicate to avoid discontinuities at padding boundary (smoothness / inv-consistency)
+        disp_fb_l, crop_slices_disp = pad_tensor_to_min_size(disp_fb_l_base, min_size=(Dmin, Hmin, Wmin), mode="replicate")
+        disp_bf_l, _                = pad_tensor_to_min_size(disp_bf_l_base, min_size=(Dmin, Hmin, Wmin), mode="replicate")
+
+        # Sanity check: crop must match for images & fields
+        if crop_slices_disp != crop_slices:
+            raise RuntimeError(f"Padding crop mismatch: img {crop_slices} vs disp {crop_slices_disp}")
 
         # ---- Control-point grid parameterization (learnable variables) ----
         cp_fb = F.interpolate(disp_fb_l, size=(g, g, g),
@@ -291,23 +316,16 @@ def dirac_instance_optimization(
             opt.step()
 
         # ---- Promote result to full resolution for next level ----
-        disp_fb_level = F.interpolate(cp_fb.detach(), size=(D, H, W),
-                                      mode="trilinear", align_corners=True)
-        disp_bf_level = F.interpolate(cp_bf.detach(), size=(D, H, W),
-                                      mode="trilinear", align_corners=True)
+        disp_fb_level = F.interpolate(cp_fb.detach(), size=(D, H, W), mode="trilinear", align_corners=True)
+        disp_bf_level = F.interpolate(cp_bf.detach(), size=(D, H, W), mode="trilinear", align_corners=True)
 
+        # Crop away the padding to return to the isotropic base size (D_base,H_base,W_base)
         disp_fb_base = crop_to_slices(disp_fb_level, crop_slices)
         disp_bf_base = crop_to_slices(disp_bf_level, crop_slices)
 
-        disp_fb_full = resize_disp_voxel(
-            disp_fb_base,
-            size=(D_full, H_full, W_full),
-        )
-
-        disp_bf_full = resize_disp_voxel(
-            disp_bf_base,
-            size=(D_full, H_full, W_full),
-        )
+        # Resize back to full-resolution voxel field
+        disp_fb_full = resize_disp_voxel(disp_fb_base, size=(D_full, H_full, W_full))
+        disp_bf_full = resize_disp_voxel(disp_bf_base, size=(D_full, H_full, W_full))
 
     return disp_fb_full.detach(), disp_bf_full.detach(), \
            m_fb_fixed.detach(), m_bf_fixed.detach()
