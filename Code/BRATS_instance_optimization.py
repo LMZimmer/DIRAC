@@ -127,7 +127,7 @@ def ncc_loss(I, J, mask=None, win=3, eps=1e-5):
 
     ncc = cross * cross / (I_var * J_var + eps)
     valid = (w_sum > 0).to(dtype=I.dtype)
-    return -(ncc * valid).sum() / (valid.sum() + eps)
+    return -(ncc * valid).sum()
 
 
 # ---------- Regularization ----------
@@ -138,16 +138,16 @@ def smoothness(disp, valid_mask=None, eps=1e-8):
     dz = disp[:, :, 1:, :, :] - disp[:, :, :-1, :, :]
 
     if valid_mask is None:
-        return dx.pow(2).mean() + dy.pow(2).mean() + dz.pow(2).mean()
+        return dx.pow(2).sum() + dy.pow(2).sum() + dz.pow(2).sum()
 
     valid_mask = valid_mask.to(dtype=disp.dtype)
     mx = valid_mask[:, :, :, :, 1:] * valid_mask[:, :, :, :, :-1]
     my = valid_mask[:, :, :, 1:, :] * valid_mask[:, :, :, :-1, :]
     mz = valid_mask[:, :, 1:, :, :] * valid_mask[:, :, :-1, :, :]
 
-    lx = (dx.pow(2) * mx).sum() / (mx.sum() + eps)
-    ly = (dy.pow(2) * my).sum() / (my.sum() + eps)
-    lz = (dz.pow(2) * mz).sum() / (mz.sum() + eps)
+    lx = (dx.pow(2) * mx).sum()
+    ly = (dy.pow(2) * my).sum()
+    lz = (dz.pow(2) * mz).sum()
     return lx + ly + lz
 
 
@@ -163,9 +163,9 @@ def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None, valid_mask=None, eps=1
     err_fwd = d_fwd + bwd_warped
     err_bwd = d_bwd + fwd_warped
 
-    # Per-voxel L2 norm
-    err_fwd = torch.linalg.vector_norm(err_fwd, dim=1, keepdim=True)  # (1,1,D,H,W)
-    err_bwd = torch.linalg.vector_norm(err_bwd, dim=1, keepdim=True)
+    # Per-voxel squared L2 norm
+    err_fwd = (err_fwd ** 2).sum(dim=1, keepdim=True)  # (1,1,D,H,W)
+    err_bwd = (err_bwd ** 2).sum(dim=1, keepdim=True)
 
     # Build weights (1 inside valid region, 0 outside), then apply absent-correspondence masks
     w_fwd = torch.ones_like(err_fwd, dtype=err_fwd.dtype, device=err_fwd.device)
@@ -181,9 +181,9 @@ def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None, valid_mask=None, eps=1
         w_fwd = w_fwd * vm
         w_bwd = w_bwd * vm
 
-    # Weighted mean over included voxels
-    loss_fwd = (err_fwd * w_fwd).sum() / (w_fwd.sum() + eps)
-    loss_bwd = (err_bwd * w_bwd).sum() / (w_bwd.sum() + eps)
+    # Weighted sum over included voxels
+    loss_fwd = (err_fwd * w_fwd).sum()
+    loss_bwd = (err_bwd * w_bwd).sum()
     return loss_fwd + loss_bwd
 
 
@@ -193,7 +193,7 @@ def dirac_instance_optimization(
     B,
     Fup,
     disp_fb_init,
-    disp_bf_init=None,
+    disp_bf_init,
     m_fb_fixed=None,
     m_bf_fixed=None,
     lambdas_reg=(0.25, 0.3, 0.3, 0.35, 0.35),
@@ -201,8 +201,6 @@ def dirac_instance_optimization(
     lrs=(1e-2, 5e-3, 5e-3, 3e-3, 3e-3),
     iters=(150, 100, 100, 100, 50),
 ):
-    if disp_bf_init is None:
-        disp_bf_init = -disp_fb_init
 
     if m_fb_fixed is None:
         m_fb_fixed = torch.zeros_like(B)
@@ -431,17 +429,19 @@ def run_patient(patient_dir, device, args):
         print(f"[skip] {patient_id}: missing required masks")
         return
 
-    disp_bf_path = None
     bwd_candidates = sorted(glob.glob(os.path.join(patient_dir, "*_preop_to_followup_disp_voxel.nii.gz")))
-    if len(bwd_candidates) == 1:
-        disp_bf_path = bwd_candidates[0]
+    if len(bwd_candidates) != 1:
+        raise FileNotFoundError(
+            f"Expected exactly one preop->followup voxel field (*_preop_to_followup_disp_voxel.nii.gz) in {patient_dir}, found: {bwd_candidates}"
+        )
+    disp_bf_path = bwd_candidates[0]
 
     preop = load_image_for_grid_sample(preop_path, device)
     followup = load_image_for_grid_sample(followup_path, device)
     preop_mask = load_mask_for_grid_sample(preop_mask_path, device)
     followup_mask = load_mask_for_grid_sample(followup_mask_path, device)
     disp_fb = load_dirac_voxel_disp_for_grid_sample(disp_fb_path, device)
-    disp_bf = load_dirac_voxel_disp_for_grid_sample(disp_bf_path, device) if disp_bf_path else None
+    disp_bf = load_dirac_voxel_disp_for_grid_sample(disp_bf_path, device)
 
     lrs = tuple(float(x) for x in args.lrs.split(","))
     iters = tuple(int(x) for x in args.iters.split(","))
