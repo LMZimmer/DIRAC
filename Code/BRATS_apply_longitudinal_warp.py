@@ -55,21 +55,23 @@ def tensor_to_hwd_numpy(tensor):
     return tensor[0, 0].permute(1, 2, 0).cpu().numpy()
 
 
-def run_patient(patient_dir, device):
+def run_patient(patient_dir, device, no_instanceopt=False):
     patient_id = os.path.basename(patient_dir.rstrip("/"))
 
     preop_path = os.path.join(patient_dir, "t1c_bet_normalized.nii.gz")
     followup_path = os.path.join(patient_dir, "t1c_bet_normalized_followup.nii.gz")
     tumor_seg_path = os.path.join(patient_dir, "tumor_seg.nii.gz")
 
-    disp_candidates = sorted(
-        glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel_optimized.nii.gz"))
-    )
-    if len(disp_candidates) != 1:
-        raise FileNotFoundError(
-            f"Expected exactly one optimized followup->preop field in {patient_dir}, found: {disp_candidates}"
+    disp_path = None
+    if not no_instanceopt:
+        disp_candidates = sorted(
+            glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel_optimized.nii.gz"))
         )
-    disp_path = disp_candidates[0]
+        if len(disp_candidates) != 1:
+            raise FileNotFoundError(
+                f"Expected exactly one optimized followup->preop field in {patient_dir}, found: {disp_candidates}"
+            )
+        disp_path = disp_candidates[0]
 
     infer_disp_candidates = sorted(
         glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel.nii.gz"))
@@ -80,41 +82,51 @@ def run_patient(patient_dir, device):
         )
     infer_disp_path = infer_disp_candidates[0]
 
-    required_paths = [preop_path, followup_path, tumor_seg_path, disp_path, infer_disp_path]
+    required_paths = [preop_path, followup_path, tumor_seg_path, infer_disp_path]
+    if disp_path is not None:
+        required_paths.append(disp_path)
     missing = [p for p in required_paths if not os.path.exists(p)]
     if missing:
         print(f"[skip] {patient_id}: missing required files: {missing}")
         return
 
-    followup = load_image_for_grid_sample(followup_path, device)
     tumor_seg = load_image_for_grid_sample(tumor_seg_path, device)
-    disp_fb_opt = load_dirac_voxel_disp_for_grid_sample(disp_path, device)
     disp_fb_infer = load_dirac_voxel_disp_for_grid_sample(infer_disp_path, device)
 
-    followup_warped = warp(followup, disp_fb_opt, mode="bilinear")
-    tumor_warped = warp(tumor_seg, disp_fb_opt, mode="nearest")
+    followup_warped = None
+    tumor_warped = None
+    if not no_instanceopt:
+        followup = load_image_for_grid_sample(followup_path, device)
+        disp_fb_opt = load_dirac_voxel_disp_for_grid_sample(disp_path, device)
+        followup_warped = warp(followup, disp_fb_opt, mode="bilinear")
+        tumor_warped = warp(tumor_seg, disp_fb_opt, mode="nearest")
+
     recurrence_y_x = warp(tumor_seg, disp_fb_infer, mode="nearest")
 
     reference = nib.load(preop_path)
     header, affine = reference.header, reference.affine
 
-    nib.save(
-        nib.Nifti1Image(tensor_to_hwd_numpy(followup_warped).astype(np.float32), affine=affine, header=header),
-        os.path.join(patient_dir, "t1c_warped_longitudinal.nii.gz"),
-    )
-    nib.save(
-        nib.Nifti1Image(tensor_to_hwd_numpy(tumor_warped).astype(np.float32), affine=affine, header=header),
-        os.path.join(patient_dir, "recurrence_preop.nii.gz"),
-    )
+    if followup_warped is not None and tumor_warped is not None:
+        nib.save(
+            nib.Nifti1Image(tensor_to_hwd_numpy(followup_warped).astype(np.float32), affine=affine, header=header),
+            os.path.join(patient_dir, "t1c_warped_longitudinal.nii.gz"),
+        )
+        nib.save(
+            nib.Nifti1Image(tensor_to_hwd_numpy(tumor_warped).astype(np.float32), affine=affine, header=header),
+            os.path.join(patient_dir, "recurrence_preop.nii.gz"),
+        )
     nib.save(
         nib.Nifti1Image(tensor_to_hwd_numpy(recurrence_y_x).astype(np.float32), affine=affine, header=header),
         os.path.join(patient_dir, f"{patient_id}_Y_X_recurrence.nii.gz"),
     )
 
-    print(
-        f"[ok] {patient_id}: wrote t1c_warped_longitudinal.nii.gz, recurrence_preop.nii.gz, "
-        f"and {patient_id}_Y_X_recurrence.nii.gz"
-    )
+    if no_instanceopt:
+        print(f"[ok] {patient_id}: wrote {patient_id}_Y_X_recurrence.nii.gz")
+    else:
+        print(
+            f"[ok] {patient_id}: wrote t1c_warped_longitudinal.nii.gz, recurrence_preop.nii.gz, "
+            f"and {patient_id}_Y_X_recurrence.nii.gz"
+        )
 
 
 def main():
@@ -125,6 +137,14 @@ def main():
         "--test_run",
         action="store_true",
         help="Run only the first patient folder found in datapath",
+    )
+    parser.add_argument(
+        "--no_instanceopt",
+        action="store_true",
+        help=(
+            "Skip optimized-warp outputs (t1c_warped_longitudinal.nii.gz and recurrence_preop.nii.gz) "
+            "and only write {patient_id}_Y_X_recurrence.nii.gz"
+        ),
     )
     args = parser.parse_args()
 
@@ -139,7 +159,7 @@ def main():
         print(f"Test run enabled: processing only {os.path.basename(patient_dirs[0])}")
 
     for patient_dir in patient_dirs:
-        run_patient(patient_dir, device)
+        run_patient(patient_dir, device, no_instanceopt=args.no_instanceopt)
 
     print("Done.")
 
