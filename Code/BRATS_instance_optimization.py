@@ -60,31 +60,37 @@ def resize_disp_voxel(disp, size):
 
 # ---------- NCC similarity ----------
 
-def ncc_loss(I, J, win=3):
+def ncc_loss(I, J, mask=None, win=3, eps=1e-5):
     pad = win // 2
-    filt = torch.ones((1, 1, win, win, win), device=I.device)
+    filt = torch.ones((1, 1, win, win, win), device=I.device, dtype=I.dtype)
 
     def conv(x):
         return F.conv3d(x, filt, padding=pad)
 
+    if mask is None:
+        mask = torch.ones_like(I)
+
+    mask = mask.to(dtype=I.dtype)
+
     I2, J2, IJ = I * I, J * J, I * J
 
-    I_sum = conv(I)
-    J_sum = conv(J)
-    I2_sum = conv(I2)
-    J2_sum = conv(J2)
-    IJ_sum = conv(IJ)
+    w_sum = conv(mask)
+    I_sum = conv(mask * I)
+    J_sum = conv(mask * J)
+    I2_sum = conv(mask * I2)
+    J2_sum = conv(mask * J2)
+    IJ_sum = conv(mask * IJ)
 
-    win_size = float(win ** 3)
-    u_I = I_sum / win_size
-    u_J = J_sum / win_size
+    u_I = I_sum / (w_sum + eps)
+    u_J = J_sum / (w_sum + eps)
 
-    cross = IJ_sum - u_J * I_sum - u_I * J_sum + u_I * u_J * win_size
-    I_var = I2_sum - 2 * u_I * I_sum + u_I * u_I * win_size
-    J_var = J2_sum - 2 * u_J * J_sum + u_J * u_J * win_size
+    cross = IJ_sum - u_J * I_sum - u_I * J_sum + u_I * u_J * w_sum
+    I_var = I2_sum - 2 * u_I * I_sum + u_I * u_I * w_sum
+    J_var = J2_sum - 2 * u_J * J_sum + u_J * u_J * w_sum
 
-    ncc = cross * cross / (I_var * J_var + 1e-5)
-    return -ncc.mean()
+    ncc = cross * cross / (I_var * J_var + eps)
+    valid = (w_sum > 0).to(dtype=I.dtype)
+    return -(ncc * valid).sum() / (valid.sum() + eps)
 
 
 # ---------- Regularization ----------
@@ -220,8 +226,8 @@ def dirac_instance_optimization(
 
             # Similarity (with masks)
             Ls = (
-                ncc_loss(B_l * (1 - mfb_l), F_warp * (1 - mfb_l))
-                + ncc_loss(F_l * (1 - mbf_l), B_warp * (1 - mbf_l))
+                ncc_loss(B_l, F_warp, mask=(1 - mfb_l))
+                + ncc_loss(F_l, B_warp, mask=(1 - mbf_l))
             )
 
             # Regularization
