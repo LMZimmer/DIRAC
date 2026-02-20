@@ -102,15 +102,15 @@ def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None):
     bwd_warped = warp_field(d_bwd, d_fwd)
     fwd_warped = warp_field(d_fwd, d_bwd)
 
-    err_fwd = (d_fwd + bwd_warped).pow(2)
-    err_bwd = (d_bwd + fwd_warped).pow(2)
+    err_fwd = d_fwd + bwd_warped
+    err_bwd = d_bwd + fwd_warped
 
     if m_fwd is not None:
         err_fwd = err_fwd * (1 - m_fwd)
     if m_bwd is not None:
         err_bwd = err_bwd * (1 - m_bwd)
 
-    return err_fwd.mean() + err_bwd.mean()
+    return torch.linalg.vector_norm(err_fwd) + torch.linalg.vector_norm(err_bwd)
 
 
 # ---------- Paper-accurate instance optimization ----------
