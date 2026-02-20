@@ -42,6 +42,22 @@ def warp_field(field, disp):
     return F.grid_sample(field, grid, mode="bilinear", padding_mode="border", align_corners=True)
 
 
+def resize_disp_voxel(disp, size):
+    """Resize displacement field and preserve voxel-space magnitude semantics."""
+    _, _, D0, H0, W0 = disp.shape
+    D1, H1, W1 = size
+    resized = F.interpolate(disp, size=size, mode="trilinear", align_corners=True)
+
+    sx = (W1 - 1) / max(W0 - 1, 1)
+    sy = (H1 - 1) / max(H0 - 1, 1)
+    sz = (D1 - 1) / max(D0 - 1, 1)
+
+    resized[:, 0] *= sx
+    resized[:, 1] *= sy
+    resized[:, 2] *= sz
+    return resized
+
+
 # ---------- NCC similarity ----------
 
 def ncc_loss(I, J, win=3):
@@ -82,10 +98,19 @@ def smoothness(disp):
 
 # ---------- Inverse consistency ----------
 
-def inv_consistency(d_fwd, d_bwd):
+def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None):
     bwd_warped = warp_field(d_bwd, d_fwd)
     fwd_warped = warp_field(d_fwd, d_bwd)
-    return (d_fwd + bwd_warped).pow(2).mean() + (d_bwd + fwd_warped).pow(2).mean()
+
+    err_fwd = (d_fwd + bwd_warped).pow(2)
+    err_bwd = (d_bwd + fwd_warped).pow(2)
+
+    if m_fwd is not None:
+        err_fwd = err_fwd * (1 - m_fwd)
+    if m_bwd is not None:
+        err_bwd = err_bwd * (1 - m_bwd)
+
+    return err_fwd.mean() + err_bwd.mean()
 
 
 # ---------- Paper-accurate instance optimization ----------
@@ -168,10 +193,8 @@ def dirac_instance_optimization(
         mbf_l = F.interpolate(m_bf_fixed, size=(D, H, W), mode="nearest")
 
         # Bring current dense init to this level
-        disp_fb_l = F.interpolate(disp_fb_full, size=(D, H, W),
-                                  mode="trilinear", align_corners=True)
-        disp_bf_l = F.interpolate(disp_bf_full, size=(D, H, W),
-                                  mode="trilinear", align_corners=True)
+        disp_fb_l = resize_disp_voxel(disp_fb_full, size=(D, H, W))
+        disp_bf_l = resize_disp_voxel(disp_bf_full, size=(D, H, W))
 
         # ---- Control-point grid parameterization (learnable variables) ----
         cp_fb = F.interpolate(disp_fb_l, size=(g, g, g),
@@ -205,7 +228,7 @@ def dirac_instance_optimization(
             Lr = smoothness(disp_fb) + smoothness(disp_bf)
 
             # Inverse consistency
-            Linv = inv_consistency(disp_fb, disp_bf)
+            Linv = inv_consistency(disp_fb, disp_bf, mfb_l, mbf_l)
 
             loss = (1 - lam_reg) * Ls + lam_reg * Lr + lam_inv * Linv
 
@@ -214,18 +237,16 @@ def dirac_instance_optimization(
             opt.step()
 
         # ---- Promote result to full resolution for next level ----
-        disp_fb_full = F.interpolate(
+        disp_fb_full = resize_disp_voxel(
             F.interpolate(cp_fb.detach(), size=(D, H, W),
                           mode="trilinear", align_corners=True),
             size=(D_full, H_full, W_full),
-            mode="trilinear", align_corners=True,
         )
 
-        disp_bf_full = F.interpolate(
+        disp_bf_full = resize_disp_voxel(
             F.interpolate(cp_bf.detach(), size=(D, H, W),
                           mode="trilinear", align_corners=True),
             size=(D_full, H_full, W_full),
-            mode="trilinear", align_corners=True,
         )
 
     return disp_fb_full.detach(), disp_bf_full.detach(), \
