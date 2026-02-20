@@ -58,6 +58,30 @@ def resize_disp_voxel(disp, size):
     return resized
 
 
+def pad_tensor_to_min_size(x, min_size):
+    """Pad a (N,C,D,H,W) tensor to min_size=(D,H,W) using symmetric zero-padding."""
+    _, _, D, H, W = x.shape
+    min_D, min_H, min_W = min_size
+
+    pad_d = max(min_D - D, 0)
+    pad_h = max(min_H - H, 0)
+    pad_w = max(min_W - W, 0)
+
+    pad_d0, pad_d1 = pad_d // 2, pad_d - (pad_d // 2)
+    pad_h0, pad_h1 = pad_h // 2, pad_h - (pad_h // 2)
+    pad_w0, pad_w1 = pad_w // 2, pad_w - (pad_w // 2)
+
+    # F.pad expects (W0,W1,H0,H1,D0,D1) for 5D tensors.
+    x_pad = F.pad(x, (pad_w0, pad_w1, pad_h0, pad_h1, pad_d0, pad_d1), mode="constant", value=0)
+    crop_slices = (slice(pad_d0, pad_d0 + D), slice(pad_h0, pad_h0 + H), slice(pad_w0, pad_w0 + W))
+    return x_pad, crop_slices
+
+
+def crop_to_slices(x, crop_slices):
+    d_slice, h_slice, w_slice = crop_slices
+    return x[:, :, d_slice, h_slice, w_slice]
+
+
 # ---------- NCC similarity ----------
 
 def ncc_loss(I, J, mask=None, win=3, eps=1e-5):
@@ -172,13 +196,22 @@ def dirac_instance_optimization(
         for i in range(n_levels)
     ]
 
-    pyr_sizes = [
+    pyr_sizes_base = [
         (
             max(1, int(round(D_full * s))),
             max(1, int(round(H_full * s))),
             max(1, int(round(W_full * s))),
         )
         for s in scales
+    ]
+
+    pyr_sizes = [
+        (
+            max(D, Dmin),
+            max(H, Hmin),
+            max(W, Wmin),
+        )
+        for (D, H, W) in pyr_sizes_base
     ]
 
     # ---- Grid sizes: 32³ → 64³ ----
@@ -194,20 +227,28 @@ def dirac_instance_optimization(
     for lvl, (lr, n_iter, lam_reg, lam_inv) in enumerate(
         zip(lrs, iters, lambdas_reg, lambdas_inv)
     ):
+        D_base, H_base, W_base = pyr_sizes_base[lvl]
         D, H, W = pyr_sizes[lvl]
         g = grid_sizes[lvl]
 
-        print(f"[lvl {lvl}] image={D}x{H}x{W}, grid={g}³")
+        print(f"[lvl {lvl}] image={D_base}x{H_base}x{W_base} -> padded={D}x{H}x{W}, grid={g}³")
 
-        # ---- Downsample images + masks to current pyramid level ----
-        B_l   = F.interpolate(B,   size=(D, H, W), mode="trilinear", align_corners=True)
-        F_l   = F.interpolate(Fup, size=(D, H, W), mode="trilinear", align_corners=True)
-        mfb_l = F.interpolate(m_fb_fixed, size=(D, H, W), mode="nearest")
-        mbf_l = F.interpolate(m_bf_fixed, size=(D, H, W), mode="nearest")
+        # ---- Isotropic downsample then pad each axis to a minimum size ----
+        B_l_base = F.interpolate(B, size=(D_base, H_base, W_base), mode="trilinear", align_corners=True)
+        F_l_base = F.interpolate(Fup, size=(D_base, H_base, W_base), mode="trilinear", align_corners=True)
+        mfb_l_base = F.interpolate(m_fb_fixed, size=(D_base, H_base, W_base), mode="nearest")
+        mbf_l_base = F.interpolate(m_bf_fixed, size=(D_base, H_base, W_base), mode="nearest")
+
+        B_l, _ = pad_tensor_to_min_size(B_l_base, min_size=(Dmin, Hmin, Wmin))
+        F_l, _ = pad_tensor_to_min_size(F_l_base, min_size=(Dmin, Hmin, Wmin))
+        mfb_l, _ = pad_tensor_to_min_size(mfb_l_base, min_size=(Dmin, Hmin, Wmin))
+        mbf_l, _ = pad_tensor_to_min_size(mbf_l_base, min_size=(Dmin, Hmin, Wmin))
 
         # Bring current dense init to this level
-        disp_fb_l = resize_disp_voxel(disp_fb_full, size=(D, H, W))
-        disp_bf_l = resize_disp_voxel(disp_bf_full, size=(D, H, W))
+        disp_fb_l_base = resize_disp_voxel(disp_fb_full, size=(D_base, H_base, W_base))
+        disp_bf_l_base = resize_disp_voxel(disp_bf_full, size=(D_base, H_base, W_base))
+        disp_fb_l, crop_slices = pad_tensor_to_min_size(disp_fb_l_base, min_size=(Dmin, Hmin, Wmin))
+        disp_bf_l, _ = pad_tensor_to_min_size(disp_bf_l_base, min_size=(Dmin, Hmin, Wmin))
 
         # ---- Control-point grid parameterization (learnable variables) ----
         cp_fb = F.interpolate(disp_fb_l, size=(g, g, g),
@@ -250,15 +291,21 @@ def dirac_instance_optimization(
             opt.step()
 
         # ---- Promote result to full resolution for next level ----
+        disp_fb_level = F.interpolate(cp_fb.detach(), size=(D, H, W),
+                                      mode="trilinear", align_corners=True)
+        disp_bf_level = F.interpolate(cp_bf.detach(), size=(D, H, W),
+                                      mode="trilinear", align_corners=True)
+
+        disp_fb_base = crop_to_slices(disp_fb_level, crop_slices)
+        disp_bf_base = crop_to_slices(disp_bf_level, crop_slices)
+
         disp_fb_full = resize_disp_voxel(
-            F.interpolate(cp_fb.detach(), size=(D, H, W),
-                          mode="trilinear", align_corners=True),
+            disp_fb_base,
             size=(D_full, H_full, W_full),
         )
 
         disp_bf_full = resize_disp_voxel(
-            F.interpolate(cp_bf.detach(), size=(D, H, W),
-                          mode="trilinear", align_corners=True),
+            disp_bf_base,
             size=(D_full, H_full, W_full),
         )
 
