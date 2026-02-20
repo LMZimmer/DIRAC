@@ -132,17 +132,29 @@ def ncc_loss(I, J, mask=None, win=3, eps=1e-5):
 
 # ---------- Regularization ----------
 
-def smoothness(disp):
+def smoothness(disp, valid_mask=None, eps=1e-8):
     dx = disp[:, :, :, :, 1:] - disp[:, :, :, :, :-1]
     dy = disp[:, :, :, 1:, :] - disp[:, :, :, :-1, :]
     dz = disp[:, :, 1:, :, :] - disp[:, :, :-1, :, :]
-    return dx.pow(2).mean() + dy.pow(2).mean() + dz.pow(2).mean()
+
+    if valid_mask is None:
+        return dx.pow(2).mean() + dy.pow(2).mean() + dz.pow(2).mean()
+
+    valid_mask = valid_mask.to(dtype=disp.dtype)
+    mx = valid_mask[:, :, :, :, 1:] * valid_mask[:, :, :, :, :-1]
+    my = valid_mask[:, :, :, 1:, :] * valid_mask[:, :, :, :-1, :]
+    mz = valid_mask[:, :, 1:, :, :] * valid_mask[:, :, :-1, :, :]
+
+    lx = (dx.pow(2) * mx).sum() / (mx.sum() + eps)
+    ly = (dy.pow(2) * my).sum() / (my.sum() + eps)
+    lz = (dz.pow(2) * mz).sum() / (mz.sum() + eps)
+    return lx + ly + lz
 
 
 # ---------- Inverse consistency ----------
 
 
-def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None):
+def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None, valid_mask=None, eps=1e-8):
     bwd_warped = warp_field(d_bwd, d_fwd)
     fwd_warped = warp_field(d_fwd, d_bwd)
 
@@ -153,9 +165,13 @@ def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None):
     err_bwd = torch.linalg.vector_norm(err_bwd, dim=1, keepdim=True)
 
     if m_fwd is not None:
-        err_fwd = err_fwd * (1 - m_fwd)
+        w_fwd = w_fwd * (1 - m_fwd)
     if m_bwd is not None:
-        err_bwd = err_bwd * (1 - m_bwd)
+        w_bwd = w_bwd * (1 - m_bwd)
+    if valid_mask is not None:
+        valid_mask = valid_mask.to(dtype=err_fwd.dtype)
+        w_fwd = w_fwd * valid_mask
+        w_bwd = w_bwd * valid_mask
 
     return err_fwd.mean() + err_bwd.mean()
 
@@ -260,6 +276,10 @@ def dirac_instance_optimization(
         mfb_l, _ = pad_tensor_to_min_size(mfb_l_base, min_size=(Dmin, Hmin, Wmin), mode="constant", value=1.0)
         mbf_l, _ = pad_tensor_to_min_size(mbf_l_base, min_size=(Dmin, Hmin, Wmin), mode="constant", value=1.0)
 
+        valid_mask = torch.zeros_like(B_l)
+        d_slice, h_slice, w_slice = crop_slices
+        valid_mask[:, :, d_slice, h_slice, w_slice] = 1.0
+
         # Bring current dense init to isotropic level size then pad
         disp_fb_l_base = resize_disp_voxel(disp_fb_full, size=(D_base, H_base, W_base))
         disp_bf_l_base = resize_disp_voxel(disp_bf_full, size=(D_base, H_base, W_base))
@@ -301,10 +321,10 @@ def dirac_instance_optimization(
             )
 
             # Regularization
-            Lr = smoothness(disp_fb) + smoothness(disp_bf)
+            Lr = smoothness(disp_fb, valid_mask) + smoothness(disp_bf, valid_mask)
 
             # Inverse consistency
-            Linv = inv_consistency(disp_fb, disp_bf, mfb_l, mbf_l)
+            Linv = inv_consistency(disp_fb, disp_bf, mfb_l, mbf_l, valid_mask)
 
             loss = (1 - lam_reg) * Ls + lam_reg * Lr + lam_inv * Linv
 
