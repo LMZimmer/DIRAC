@@ -63,6 +63,7 @@ def run_patient(patient_dir, device, no_instanceopt=False):
     tumor_seg_path = os.path.join(patient_dir, "tumor_seg.nii.gz")
 
     disp_path = None
+    disp_alt_path = None
     if not no_instanceopt:
         disp_candidates = sorted(
             glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel_optimized.nii.gz"))
@@ -72,6 +73,15 @@ def run_patient(patient_dir, device, no_instanceopt=False):
                 f"Expected exactly one optimized followup->preop field in {patient_dir}, found: {disp_candidates}"
             )
         disp_path = disp_candidates[0]
+
+        disp_alt_candidates = sorted(
+            glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel_optimized_alt.nii.gz"))
+        )
+        if len(disp_alt_candidates) != 1:
+            raise FileNotFoundError(
+                f"Expected exactly one optimized_alt followup->preop field in {patient_dir}, found: {disp_alt_candidates}"
+            )
+        disp_alt_path = disp_alt_candidates[0]
 
     infer_disp_candidates = sorted(
         glob.glob(os.path.join(patient_dir, "*_followup_to_preop_disp_voxel.nii.gz"))
@@ -85,6 +95,8 @@ def run_patient(patient_dir, device, no_instanceopt=False):
     required_paths = [preop_path, followup_path, tumor_seg_path, infer_disp_path]
     if disp_path is not None:
         required_paths.append(disp_path)
+    if disp_alt_path is not None:
+        required_paths.append(disp_alt_path)
     missing = [p for p in required_paths if not os.path.exists(p)]
     if missing:
         print(f"[skip] {patient_id}: missing required files: {missing}")
@@ -95,11 +107,16 @@ def run_patient(patient_dir, device, no_instanceopt=False):
 
     followup_warped = None
     tumor_warped = None
+    followup_warped_alt = None
+    tumor_warped_alt = None
     if not no_instanceopt:
         followup = load_image_for_grid_sample(followup_path, device)
         disp_fb_opt = load_dirac_voxel_disp_for_grid_sample(disp_path, device)
+        disp_fb_opt_alt = load_dirac_voxel_disp_for_grid_sample(disp_alt_path, device)
         followup_warped = warp(followup, disp_fb_opt, mode="bilinear")
         tumor_warped = warp(tumor_seg, disp_fb_opt, mode="nearest")
+        followup_warped_alt = warp(followup, disp_fb_opt_alt, mode="bilinear")
+        tumor_warped_alt = warp(tumor_seg, disp_fb_opt_alt, mode="nearest")
 
     recurrence_y_x = warp(tumor_seg, disp_fb_infer, mode="nearest")
 
@@ -115,6 +132,18 @@ def run_patient(patient_dir, device, no_instanceopt=False):
             nib.Nifti1Image(tensor_to_hwd_numpy(tumor_warped).astype(np.float32), affine=affine, header=header),
             os.path.join(patient_dir, "recurrence_preop.nii.gz"),
         )
+        nib.save(
+            nib.Nifti1Image(
+                tensor_to_hwd_numpy(followup_warped_alt).astype(np.float32),
+                affine=affine,
+                header=header,
+            ),
+            os.path.join(patient_dir, "t1c_warped_longitudinal_alt.nii.gz"),
+        )
+        nib.save(
+            nib.Nifti1Image(tensor_to_hwd_numpy(tumor_warped_alt).astype(np.float32), affine=affine, header=header),
+            os.path.join(patient_dir, "recurrence_preop_alt.nii.gz"),
+        )
     nib.save(
         nib.Nifti1Image(tensor_to_hwd_numpy(recurrence_y_x).astype(np.float32), affine=affine, header=header),
         os.path.join(patient_dir, f"{patient_id}_Y_X_recurrence.nii.gz"),
@@ -125,6 +154,7 @@ def run_patient(patient_dir, device, no_instanceopt=False):
     else:
         print(
             f"[ok] {patient_id}: wrote t1c_warped_longitudinal.nii.gz, recurrence_preop.nii.gz, "
+            f"t1c_warped_longitudinal_alt.nii.gz, recurrence_preop_alt.nii.gz, "
             f"and {patient_id}_Y_X_recurrence.nii.gz"
         )
 
@@ -142,7 +172,8 @@ def main():
         "--no_instanceopt",
         action="store_true",
         help=(
-            "Skip optimized-warp outputs (t1c_warped_longitudinal.nii.gz and recurrence_preop.nii.gz) "
+            "Skip optimized-warp outputs (t1c_warped_longitudinal(.nii.gz/_alt.nii.gz) and "
+            "recurrence_preop(.nii.gz/_alt.nii.gz)) "
             "and only write {patient_id}_Y_X_recurrence.nii.gz"
         ),
     )
