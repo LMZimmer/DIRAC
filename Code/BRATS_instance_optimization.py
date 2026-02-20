@@ -155,25 +155,36 @@ def smoothness(disp, valid_mask=None, eps=1e-8):
 
 
 def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None, valid_mask=None, eps=1e-8):
+    # Warp the opposite field into each direction's space
     bwd_warped = warp_field(d_bwd, d_fwd)
     fwd_warped = warp_field(d_fwd, d_bwd)
 
+    # Composition errors
     err_fwd = d_fwd + bwd_warped
     err_bwd = d_bwd + fwd_warped
 
-    err_fwd = torch.linalg.vector_norm(err_fwd, dim=1, keepdim=True)
+    # Per-voxel L2 norm
+    err_fwd = torch.linalg.vector_norm(err_fwd, dim=1, keepdim=True)  # (1,1,D,H,W)
     err_bwd = torch.linalg.vector_norm(err_bwd, dim=1, keepdim=True)
 
-    if m_fwd is not None:
-        w_fwd = w_fwd * (1 - m_fwd)
-    if m_bwd is not None:
-        w_bwd = w_bwd * (1 - m_bwd)
-    if valid_mask is not None:
-        valid_mask = valid_mask.to(dtype=err_fwd.dtype)
-        w_fwd = w_fwd * valid_mask
-        w_bwd = w_bwd * valid_mask
+    # Build weights (1 inside valid region, 0 outside), then apply absent-correspondence masks
+    w_fwd = torch.ones_like(err_fwd, dtype=err_fwd.dtype, device=err_fwd.device)
+    w_bwd = torch.ones_like(err_bwd, dtype=err_bwd.dtype, device=err_bwd.device)
 
-    return err_fwd.mean() + err_bwd.mean()
+    if m_fwd is not None:
+        w_fwd = w_fwd * (1.0 - m_fwd.to(dtype=err_fwd.dtype))
+    if m_bwd is not None:
+        w_bwd = w_bwd * (1.0 - m_bwd.to(dtype=err_bwd.dtype))
+
+    if valid_mask is not None:
+        vm = valid_mask.to(dtype=err_fwd.dtype)
+        w_fwd = w_fwd * vm
+        w_bwd = w_bwd * vm
+
+    # Weighted mean over included voxels
+    loss_fwd = (err_fwd * w_fwd).sum() / (w_fwd.sum() + eps)
+    loss_bwd = (err_bwd * w_bwd).sum() / (w_bwd.sum() + eps)
+    return loss_fwd + loss_bwd
 
 
 # ---------- Paper-accurate instance optimization ----------
