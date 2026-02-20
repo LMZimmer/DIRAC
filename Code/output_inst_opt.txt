@@ -1,0 +1,1467 @@
+Using device: cuda
+Found 244 patient folders in /mnt/Drive2/lucas/models/DIRAC/Dataset/predict_gbm/
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-001: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-002: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-004: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-005: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-006: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-007: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-008: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-009: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-010: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-011: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-012: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-013: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-014: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-015: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-017: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-018: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-021: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-022: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-023: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-025: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-027: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-028: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-029: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-030: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-031: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-032: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-033: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-034: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-037: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-038: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-039: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-040: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-041: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-042: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-043: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-045: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-046: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-048: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-049: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-050: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-051: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-052: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-055: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-059: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-060: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-061: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-062: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-064: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-066: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-068: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-071: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-072: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-073: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-075: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-077: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-078: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-080: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-086: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-087: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-089: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-090: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] Patient-091: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0001: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0002: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0003: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0004: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0005: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0006: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0007: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0008: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0009: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0010: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0011: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0012: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0013: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0014: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0015: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0016: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0017: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0018: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0019: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0020: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0021: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0022: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0023: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0024: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0025: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0026: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0027: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0028: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0029: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0030: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0031: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0032: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0033: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0034: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0035: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0036: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0037: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0038: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0039: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] RHUH-0040: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_001: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_002: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_004: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_005: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_006: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_007: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_008: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_009: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_010: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_011: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_014: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_015: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_016: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_017: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_018: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_019: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_020: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_021: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_024: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_026: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_030: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_031: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_033: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_035: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_036: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_039: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_041: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_045: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_046: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_047: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_051: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_053: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_054: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_055: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_056: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_057: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_058: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_061: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_062: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_065: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_066: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_068: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_070: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_072: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_073: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_074: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_077: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_078: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_079: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_081: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_082: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_085: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_086: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_087: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_088: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_089: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_091: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_093: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_095: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_096: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_097: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_098: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_099: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_100: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_101: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_105: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_106: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_107: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_109: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_111: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_116: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_117: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_118: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_119: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_120: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_121: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_122: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_123: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_125: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_126: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_127: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_128: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_130: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_131: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_133: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_136: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_138: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_139: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_140: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_145: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_146: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_150: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_156: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] respond_tum_157: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm001: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm003: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm004: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm005: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm006: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm009: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm010: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm011: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm013: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm014: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm016: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm018: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm023: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm024: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm025: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm026: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm027: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm028: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm029: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm031: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm033: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm034: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm035: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm036: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm037: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm038: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm039: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm041: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm042: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm044: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm045: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm047: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm048: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm049: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm052: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm053: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm054: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm055: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm056: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm057: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm060: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm061: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm063: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm064: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm065: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm066: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm068: optimized fields saved
+[lvl 0] image=52x80x80, grid=32³
+[lvl 1] image=78x120x120, grid=40³
+[lvl 2] image=103x160x160, grid=48³
+[lvl 3] image=129x200x200, grid=56³
+[lvl 4] image=155x240x240, grid=64³
+[ok] tgm071: optimized fields saved
+Done.

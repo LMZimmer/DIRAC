@@ -10,9 +10,8 @@ import torch.nn.functional as F
 from Functions import save_flow
 
 
-# ---------- Warping utilities ----------
-
 def make_identity_grid(D, H, W, device, dtype):
+    # generates a grid of normalized coordinates
     xs = torch.linspace(-1, 1, W, device=device, dtype=dtype)
     ys = torch.linspace(-1, 1, H, device=device, dtype=dtype)
     zs = torch.linspace(-1, 1, D, device=device, dtype=dtype)
@@ -21,6 +20,7 @@ def make_identity_grid(D, H, W, device, dtype):
 
 
 def voxel_disp_to_norm(disp, D, H, W):
+    # convert displacement from voxel coordinates to normalized coordinates
     dx, dy, dz = disp[:, 0], disp[:, 1], disp[:, 2]
     sx = 2.0 / max(W - 1, 1)
     sy = 2.0 / max(H - 1, 1)
@@ -29,22 +29,15 @@ def voxel_disp_to_norm(disp, D, H, W):
 
 
 def warp(img, disp):
+    # apply displacement displacement to img/field
     _, _, D, H, W = img.shape
     grid0 = make_identity_grid(D, H, W, img.device, img.dtype)
     grid = grid0 + voxel_disp_to_norm(disp, D, H, W)
     return F.grid_sample(img, grid, mode="bilinear", padding_mode="border", align_corners=True)
 
 
-def warp_field(field, disp):
-    _, _, D, H, W = field.shape
-    grid0 = make_identity_grid(D, H, W, field.device, field.dtype)
-    grid = grid0 + voxel_disp_to_norm(disp, D, H, W)
-    return F.grid_sample(field, grid, mode="bilinear", padding_mode="border", align_corners=True)
-
-
-# ---------- NCC similarity ----------
-
 def ncc_loss(I, J, win=3):
+    # compute local normalized cross-correlation between I and J with window (win,win,win)
     pad = win // 2
     filt = torch.ones((1, 1, win, win, win), device=I.device)
 
@@ -71,24 +64,20 @@ def ncc_loss(I, J, win=3):
     return -ncc.mean()
 
 
-# ---------- Regularization ----------
-
 def smoothness(disp):
+    # smoothness of displacement field
     dx = disp[:, :, :, :, 1:] - disp[:, :, :, :, :-1]
     dy = disp[:, :, :, 1:, :] - disp[:, :, :, :-1, :]
     dz = disp[:, :, 1:, :, :] - disp[:, :, :-1, :, :]
     return dx.pow(2).mean() + dy.pow(2).mean() + dz.pow(2).mean()
 
 
-# ---------- Inverse consistency ----------
-
 def inv_consistency(d_fwd, d_bwd):
-    bwd_warped = warp_field(d_bwd, d_fwd)
-    fwd_warped = warp_field(d_fwd, d_bwd)
+    # inverse consistency  between forward and backward displacement
+    bwd_warped = warp(d_bwd, d_fwd)
+    fwd_warped = warp(d_fwd, d_bwd)
     return (d_fwd + bwd_warped).pow(2).mean() + (d_bwd + fwd_warped).pow(2).mean()
 
-
-# ---------- Paper-accurate instance optimization ----------
 
 def dirac_instance_optimization(
     B,
@@ -102,6 +91,9 @@ def dirac_instance_optimization(
     lrs=(1e-2, 5e-3, 5e-3, 3e-3, 3e-3),
     iters=(150, 100, 100, 100, 50),
 ):
+    # B: baseline / moving
+    # Fup: followup / fixed
+
     if disp_bf_init is None:
         disp_bf_init = -disp_fb_init
 

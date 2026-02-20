@@ -141,6 +141,8 @@ def main():
     for patient_dir in patient_dirs:
         run_patient(patient_dir, device)
 
+    print("Done.")
+
 
 if __name__ == "__main__":
     main()
