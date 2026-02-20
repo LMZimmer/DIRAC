@@ -149,17 +149,14 @@ def inv_consistency(d_fwd, d_bwd, m_fwd=None, m_bwd=None):
     err_fwd = d_fwd + bwd_warped
     err_bwd = d_bwd + fwd_warped
 
-    # 1. Calculate the per-voxel L2 norm (distance) along the channel dim
     err_fwd = torch.linalg.vector_norm(err_fwd, dim=1, keepdim=True)
     err_bwd = torch.linalg.vector_norm(err_bwd, dim=1, keepdim=True)
 
-    # 2. Apply the mask to exclude regions with absent correspondences
     if m_fwd is not None:
         err_fwd = err_fwd * (1 - m_fwd)
     if m_bwd is not None:
         err_bwd = err_bwd * (1 - m_bwd)
 
-    # 3. Sum over the spatial domain (or .mean() if your learning rates expect it)
     return err_fwd.mean() + err_bwd.mean()
 
 
