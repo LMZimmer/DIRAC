@@ -3,6 +3,7 @@
 
 import argparse
 from pathlib import Path
+from typing import Tuple
 
 import matplotlib.pyplot as plt
 import nibabel as nib
@@ -59,10 +60,10 @@ def load_volume(path: Path) -> np.ndarray:
 
 
 
-def get_center_of_mass(segmentation: np.ndarray) -> tuple[int, int, int]:
+def get_center_of_mass(segmentation: np.ndarray) -> Tuple[int, int, int]:
     mask = np.isin(segmentation, [1, 3])
     if not np.any(mask):
-        mask = segmentation > 0
+        mask = np.isin(segmentation, [1, 2, 3, 4])
 
     if np.any(mask):
         com = ndimage.center_of_mass(mask.astype(np.float32))
@@ -78,7 +79,7 @@ def get_center_of_mass(segmentation: np.ndarray) -> tuple[int, int, int]:
 
 
 
-def get_slice(volume: np.ndarray, row: int, center: tuple[int, int, int]) -> np.ndarray:
+def get_slice(volume: np.ndarray, row: int, center: Tuple[int, int, int]) -> np.ndarray:
     x, y, z = center
     if row == 0:  # axial
         image = volume[:, :, z]
@@ -147,4 +148,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
