@@ -40,7 +40,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--datapath",
         type=Path,
-        required=True,
         default='../Dataset/predict_gbm',
         help="Folder containing one subfolder per patient.",
     )
