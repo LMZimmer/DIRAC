@@ -1,0 +1,145 @@
+Using device: cuda
+Found 142 patient folders in /mnt/Drive2/lucas/models/DIRAC/Dataset/predict_gbm/
+[ok] respond_tum_001: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_002: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_004: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_005: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_006: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_007: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_008: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_009: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_010: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_011: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_014: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_015: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_016: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_017: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_018: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_019: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_020: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_021: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_024: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_026: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_030: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_031: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_033: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_035: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_036: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_039: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_041: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_045: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_046: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_047: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_051: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_053: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_054: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_055: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_056: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_057: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_058: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_061: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_062: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_065: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_066: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_068: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_070: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_072: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_073: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_074: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_077: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_078: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_079: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_081: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_082: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_085: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_086: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_087: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_088: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_089: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_091: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_093: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_095: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_096: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_097: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_098: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_099: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_100: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_101: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_105: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_106: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_107: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_109: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_111: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_116: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_117: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_118: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_119: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_120: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_121: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_122: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_123: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_125: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_126: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_127: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_128: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_130: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_131: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_133: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_136: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_138: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_139: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_140: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_145: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_146: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_150: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_156: wrote flair_warped_longitudinal.nii.gz
+[ok] respond_tum_157: wrote flair_warped_longitudinal.nii.gz
+[skip] tgm001: flair_bet_normalized.nii.gz not found
+[skip] tgm003: flair_bet_normalized.nii.gz not found
+[skip] tgm004: flair_bet_normalized.nii.gz not found
+[skip] tgm005: flair_bet_normalized.nii.gz not found
+[skip] tgm006: flair_bet_normalized.nii.gz not found
+[skip] tgm009: flair_bet_normalized.nii.gz not found
+[skip] tgm010: flair_bet_normalized.nii.gz not found
+[skip] tgm011: flair_bet_normalized.nii.gz not found
+[skip] tgm013: flair_bet_normalized.nii.gz not found
+[skip] tgm014: flair_bet_normalized.nii.gz not found
+[skip] tgm016: flair_bet_normalized.nii.gz not found
+[skip] tgm018: flair_bet_normalized.nii.gz not found
+[skip] tgm023: flair_bet_normalized.nii.gz not found
+[skip] tgm024: flair_bet_normalized.nii.gz not found
+[skip] tgm025: flair_bet_normalized.nii.gz not found
+[skip] tgm026: flair_bet_normalized.nii.gz not found
+[skip] tgm027: flair_bet_normalized.nii.gz not found
+[skip] tgm028: flair_bet_normalized.nii.gz not found
+[skip] tgm029: flair_bet_normalized.nii.gz not found
+[skip] tgm031: flair_bet_normalized.nii.gz not found
+[skip] tgm033: flair_bet_normalized.nii.gz not found
+[skip] tgm034: flair_bet_normalized.nii.gz not found
+[skip] tgm035: flair_bet_normalized.nii.gz not found
+[skip] tgm036: flair_bet_normalized.nii.gz not found
+[skip] tgm037: flair_bet_normalized.nii.gz not found
+[skip] tgm038: flair_bet_normalized.nii.gz not found
+[skip] tgm039: flair_bet_normalized.nii.gz not found
+[skip] tgm041: flair_bet_normalized.nii.gz not found
+[skip] tgm042: flair_bet_normalized.nii.gz not found
+[skip] tgm044: flair_bet_normalized.nii.gz not found
+[skip] tgm045: flair_bet_normalized.nii.gz not found
+[skip] tgm047: flair_bet_normalized.nii.gz not found
+[skip] tgm048: flair_bet_normalized.nii.gz not found
+[skip] tgm049: flair_bet_normalized.nii.gz not found
+[skip] tgm052: flair_bet_normalized.nii.gz not found
+[skip] tgm053: flair_bet_normalized.nii.gz not found
+[skip] tgm054: flair_bet_normalized.nii.gz not found
+[skip] tgm055: flair_bet_normalized.nii.gz not found
+[skip] tgm056: flair_bet_normalized.nii.gz not found
+[skip] tgm057: flair_bet_normalized.nii.gz not found
+[skip] tgm060: flair_bet_normalized.nii.gz not found
+[skip] tgm061: flair_bet_normalized.nii.gz not found
+[skip] tgm063: flair_bet_normalized.nii.gz not found
+[skip] tgm064: flair_bet_normalized.nii.gz not found
+[skip] tgm065: flair_bet_normalized.nii.gz not found
+[skip] tgm066: flair_bet_normalized.nii.gz not found
+[skip] tgm068: flair_bet_normalized.nii.gz not found
+[skip] tgm071: flair_bet_normalized.nii.gz not found
+Done.

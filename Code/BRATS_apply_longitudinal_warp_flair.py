@@ -90,7 +90,7 @@ def run_patient(patient_dir, device):
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument("--datapath", type=str, default="../Dataset/test", help="Path containing patient folders")
+    parser.add_argument("--datapath", type=str, default="../Dataset/predict_gbm", help="Path containing patient folders")
     parser.add_argument("--cpu", action="store_true", help="Force CPU execution")
     parser.add_argument(
         "--test_run",
