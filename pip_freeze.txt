@@ -1,0 +1,24 @@
+contourpy==1.1.1
+cycler==0.12.1
+fonttools==4.57.0
+importlib_resources==6.4.5
+kiwisolver==1.4.7
+matplotlib==3.7.5
+MedPy==0.5.2
+mkl-fft @ file:///croot/mkl_fft_1695058164594/work
+mkl-random @ file:///croot/mkl_random_1695059800811/work
+mkl-service==2.4.0
+nibabel==5.2.1
+numpy @ file:///work/mkl/numpy_and_numpy_base_1682953417311/work
+packaging==26.0
+pillow @ file:///croot/pillow_1721059439630/work
+pyparsing==3.1.4
+python-dateutil==2.9.0.post0
+scipy==1.10.1
+SimpleITK==2.2.1
+six==1.17.0
+torch==1.10.0
+torchaudio==0.10.0
+torchvision==0.11.1
+typing_extensions @ file:///croot/typing_extensions_1715268824938/work
+zipp==3.20.2
